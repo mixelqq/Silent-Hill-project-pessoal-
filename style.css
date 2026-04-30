@@ -1,0 +1,395 @@
+header {
+    background: linear-gradient(180deg, #f7f4f4, #070707);
+    color: rgb(85, 85, 85);
+    padding: 40px;
+    text-align: center;
+    border-bottom: 3px solid #6b0000;
+}
+
+header h1 {
+    color: #ff0000;
+    font-size: 42px;
+    text-shadow: 2px 2px 10px #ff0000;
+}
+
+nav {
+    margin-top: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: rgb(201, 0, 0);
+    font-weight: bold;
+    margin-right: 15px;
+    padding: 12px 20px;
+
+    background-color: #1a0000;
+    border: 2px solid #8b0000;
+    border-radius: 8px;
+
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background-color: #8b0000;
+    color: rgb(68, 64, 64);
+    transform: scale(1.1);
+}
+
+.container-articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+article {
+    background-color: #000000;
+
+    border: 2px solid #8b0000;
+    border-radius: 10px;
+
+    padding: 20px;
+
+    transition: 0.3s;
+}
+
+article:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 15px #8b0000;
+}
+
+img {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    background: radial-gradient(circle, #000000, #050000);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+    color: #ff0000;
+    margin-bottom: 20px;
+
+    border-left: 5px solid #8b0000;
+    padding-left: 10px;
+}
+
+/* 🌫️ Neblina Camada 1 */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 200%;
+    height: 100%;
+
+    background: url("https://www.transparenttextures.com/patterns/foggy-birds.png");
+
+    opacity: 0.12;
+
+    animation: neblina1 80s linear infinite;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+/* 🌫️ Neblina realista */
+
+body::before {
+    content: "";
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 200%;
+    height: 100%;
+
+    background: url("https://www.transparenttextures.com/patterns/fog.png");
+
+    opacity: 0.15;
+
+    animation: neblina 120s linear infinite;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    filter: blur(3px);
+}
+
+/* Movimento suave */
+
+@keyframes neblina {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-600px);
+    }
+
+}
+
+/* ⚡ Glitch no título */
+
+header h1 {
+    position: relative;
+
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 0 red;
+    }
+
+    25% {
+        text-shadow: -2px 0 rgb(0, 0, 102);
+    }
+
+    50% {
+        text-shadow: 2px 2px red;
+    }
+
+    75% {
+        text-shadow: -2px -2px rgb(216, 0, 54);
+    }
+
+    100% {
+        text-shadow: 2px 0 red;
+    }
+}
+
+/* 🖼️ Efeito nas imagens */
+
+article img {
+
+    filter: brightness(60%) contrast(120%);
+
+    transition: 0.4s;
+}
+
+article img:hover {
+
+    filter: brightness(100%) contrast(130%);
+
+    transform: scale(1.05);
+}
+
+/* 🧟 Sombra assustadora */
+
+article:hover {
+
+    box-shadow: 0 0 25px #8b0000;
+
+    transform: scale(1.03);
+}
+
+/* 🎮 Botão do menu */
+
+.menu-btn {
+
+    position: fixed;
+
+    top: 20px;
+    left: 20px;
+
+    background-color: #000;
+
+    color: red;
+
+    font-size: 28px;
+
+    border: 2px solid #8b0000;
+
+    padding: 10px 15px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    z-index: 1000;
+
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+
+    background-color: #8b0000;
+
+}
+
+
+/* 🎮 Menu lateral */
+
+.menu-lateral {
+
+    position: fixed;
+
+    top: 0;
+    left: -250px;
+
+    width: 250px;
+    height: 100%;
+
+    background: linear-gradient(180deg, #000000, #1a0000);
+
+    padding-top: 80px;
+
+    transition: 0.4s;
+
+    z-index: 999;
+
+    border-right: 3px solid #8b0000;
+}
+
+/* Links do menu */
+
+.menu-lateral a {
+
+    display: block;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 15px 25px;
+
+    font-size: 18px;
+
+    transition: 0.3s;
+
+}
+
+/* Hover */
+
+.menu-lateral a:hover {
+
+    background-color: #8b0000;
+
+    padding-left: 35px;
+
+}
+
+/* Menu aberto */
+
+.menu-lateral.ativo {
+
+    left: 0;
+
+}
+
+/* 💡 Luz piscando estilo terror */
+
+/* 🩸 Luz vermelha fraca à esquerda */
+
+.luz-piscando {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100%;
+height: 100%;
+
+/* Luz posicionada mais à esquerda */
+
+background: radial-gradient(
+circle at 20% 25%, /* ← posição da luz (mais à esquerda) */
+rgba(143, 89, 89, 0.12), /* vermelho sangue fraco */
+rgba(0, 0, 0, 0.95)
+);
+
+pointer-events: none;
+
+transition: opacity 0.1s;
+
+z-index: 0;
+
+}
+
+/* Quando pisca */
+
+.luz-apagada {
+
+opacity: 0.4; /* não apaga totalmente */
+
+}
+
+
+
+/* Animação da luz */
+
+@keyframes piscarLuz {
+
+0%, 100% {
+opacity: 1;
+}
+
+92% {
+opacity: 0.4;
+}
+
+94% {
+opacity: 1;
+}
+
+96% {
+opacity: 0.3;
+}
+
+98% {
+opacity: 1;
+}
+
+}
+/* 💡 Luz ambiente */
+
+.luz-piscando {
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 150%;
+height: 100%;
+
+/* Luz branca suave */
+
+background: radial-gradient(
+circle at 15% 30%,
+rgba(126, 100, 100, 0.15)
+rgba(0,0,0,0.95)
+);
+
+pointer-events: none;
+
+transition: opacity 0.1s;
+
+z-index: 2;
+
+}
+
+/* Quando a luz falha */
+
+.luz-apagada {
+
+opacity: 0.2;
+
+}
+
+
+
+
