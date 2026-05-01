@@ -6,6 +6,8 @@ header {
     border-bottom: 3px solid #8b0000;
 }
 
+
+
 header h1 {
     color: #ff0000;
     font-size: 42px;
@@ -86,7 +88,7 @@ border-radius: 8px;
 
 padding: 12px;
 
-height: 260px; /* 🔥 TODOS IGUAIS */
+height: 150px; /* 🔥 TODOS IGUAIS */
 
 display: flex;
 
@@ -443,18 +445,30 @@ flex-grow: 1;
 
 }
 
-.card-content p {
+.banner {
 
-font-size: 13px;
+position: center;
 
-color: #ccc;
+width: 100%;
 
-margin: 0;
+height: 100px;
 
-line-height: 1.3;
+overflow: hidden;
 
 }
 
-.card-content {
-justify-content: flex-start;
+/* 🖼️ IMAGEM */
+
+.banner img {
+
+width: 100%;
+
+height: 100%;
+
+object-fit: cover;
+
+object-position: center;
+
+filter: brightness(60%);
+
 }
