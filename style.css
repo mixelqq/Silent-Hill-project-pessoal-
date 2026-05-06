@@ -67,14 +67,14 @@ img {
     border-radius: 10px;
 }
 
-/* 🔥 BANNER HEATHER */
+/*  BANNER HEATHER */
 .banner-heather {
     width: 100%;
     max-height: 500px;
     object-fit: cover;
 }
 
-/* 🌫️ NEBLINA REAL */
+/*  NEBLINA  */
 body::before {
     content: "";
     position: fixed;
@@ -100,7 +100,7 @@ body::before {
     to { transform: translateX(-600px); }
 }
 
-/* ⚡ GLITCH */
+/*  GLITCH */
 @keyframes glitch {
     0% { text-shadow: 2px 0 red; }
     50% { text-shadow: -2px 0 rgb(10, 10, 94); }
@@ -110,7 +110,7 @@ body::before {
 
 
 
-/* 🎮 MENU */
+/*  MENU */
 .menu-btn {
     position: fixed;
     top: 20px;
