@@ -6,148 +6,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silent News</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <div class="titulo">
-            <h1>Silent Hill Novidades</h1>
-            <img src="./img/Halo_of_the_Sun.webp" alt="Piramid" width="100" height="100">
-        </div>
-    <p>Todas as novidades da franquia Silent Hill</p> <br> <br>
-    <nav class="menu-principal" aria-label="Menu principal">
-    <a href="#Destaques da semana">Destaques da semana</a>
-    <a href="./img/Silent_Hill_f_-_Full_key_artwork.webp"
-    target="_blank"
-    rel="noopener noreferrer"> Silent Hill f</a>
-    <a href="#Protagonistas">Protagonistas</a>
-    <a href="#Monstros">Monstros</a>
+
+<header>
+    <div class="titulo">
+        <h1>Silent Hill Novidades</h1>
+    </div>
+
+    <p>Todas as novidades da franquia Silent Hill</p>
+
+    <nav class="menu-principal">
+        <a href="#destaques">Destaques</a>
+        <a href="#Protagonistas">Protagonistas</a>
+        <a href="#Monstros">Monstros</a>
     </nav>
-    </header>
+</header>
 
-    <main>
-      <section id="Protagonistas">
-            <h2>A escolhida</h2>
-            <article>
-                <header>
-                    <h3>Heather Mason, Simbolo da Maturidade feminina</h3>
-                    
-                </header>
-                <figure>
-                    <div style="text-align: center;">
-                      <div class="banner">
-                   <img src="./img/Heather_Photo.webp" alt="A escolhida" width="550" height="400">
-                     <div class="banner-overlay"></div>
-                      <div class="banner-texto"></div>
-                    <figcaption>Sofrer faz parte da vida</figcaption>
-                    </div>
-                </figure>
-                <p>
-                    "Voce querendo ou nao, sofrer é humano."
-                </p>
-            </article>
-        </section>
+<main>
 
-        <section id="Monstros">
+<!-- PROTAGONISTA -->
+<section id="Protagonistas">
+    <h2>A escolhida</h2>
 
-<h2>Principais Monstros</h2>
+    <article>
+        <h3>Heather Mason</h3>
 
-<div class="container-articles">
-</section>
-  <!-- Silent hill 3 inimigos -->
- <div class="container-articles">
+        <img src="./img/Heather_Photo.webp" class="banner-heather">
 
-  <article>
-    <img src="img/BHNFigure.webp">
-
-    <h3>Nurse</h3>
-
-    <p><strong>Local:</strong> Hospital</p>
-
-    <p>Monstro icônico encontrado no hospital.</p>
-  </article>
-
-  
-
-
-
-  <!-- Piramid -->
-  <article class="Monstros">
-    <figure>
-        <div style="text-align: center;">
-      <img src="./img/wp2981456.webp" width="550" height="400"
-           alt="Pyramid Head">
-        </div>
-    <h3>Pyramid Head</h3>
-    <p><strong>Cidade:</strong> Cidade, Silent Hill</p>
-    <p>Monstro mais temido, o executor das almas que vagam sem rumo.</p>
-  </article>
-
-  <!-- Daddy -->
-  <article class="Monstros">
-    <figure>
-        <div style="text-align: center;">
-      <img src="./img/DaddyPachislot.webp" width="550" height="400"
-           alt="Papai">
-        </div>
-    <h3>Abstract Daddy</h3>
-    <p><strong>Pesadelo:</strong> Angela Orosco</p>
-    <p>Monstro, o inferno de Angela Orosco.</p>
-  </article>
-
-  <!-- mary -->
-  <article class="team">
-    <figure>
-        <div style="text-align: center;">
-      <img src="./img/SH2_Remake_-_Maria_Entering_Into_Phase_Two_Of_Her_Battle.webp" width="550" height="400"
-           alt="Mary">
-        </div>
-    <h3>Maria</h3>
-    <p><strong>Inferno:</strong> O inferno, o amor de James Sunderland</p>
-    <p>Tao parecidas...</p>
-  </article>
-
+        <p>"Sofrer faz parte da vida."</p>
+    </article>
 </section>
 
- <article>
+<!-- MONSTROS -->
+<section id="Monstros">
+    <h2>Principais Monstros</h2>
 
-  <img src="./img/JamesReflection.webp" alt="James">
+    <div class="container-articles">
 
-  <h3>James Sunderland</h3>
+        <article>
+            <img src="./img/BHNFigure.webp">
+            <h3>Nurse</h3>
+            <p>Hospital Brookhaven</p>
+        </article>
 
-  <div class="card-content">
+        <article>
+            <img src="./img/wp2981456.webp">
+            <h3>Pyramid Head</h3>
+            <p>O executor de Silent Hill</p>
+        </article>
 
-    <p><strong>Culpado:</strong> Assassino?</p>
+        <article>
+            <img src="./img/DaddyPachislot.webp">
+            <h3>Abstract Daddy</h3>
+            <p>Pesadelo de Angela</p>
+        </article>
 
-    <p>Ele vai até o inferno por um amor.</p>
+        <article>
+            <img src="./img/SH2_Remake_-_Maria_Entering_Into_Phase_Two_Of_Her_Battle.webp">
+            <h3>Maria</h3>
+            <p>Ligada ao sofrimento de James</p>
+        </article>
 
-  </div>
-
-</article>
-
-
+    </div>
 </section>
-</div>
-<div class="login-container">
-  
-</div>
 
+<!-- DESTAQUES -->
+<section id="destaques">
+    <h2>James Sunderland</h2>
+
+    <article>
+        <img src="./img/JamesReflection.webp">
+        <h3>James</h3>
+        <p>Um homem preso à culpa e ao amor</p>
+    </article>
+</section>
+
+</main>
+
+<!-- EFEITOS -->
+<div class="luz-piscando" id="luz"></div>
+
+<!-- MENU -->
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+<nav class="menu-lateral">
+    <a href="#destaques">🏠 Destaques</a>
+    <a href="#Protagonistas">🧍 Protagonistas</a>
+    <a href="#Monstros">🧟 Monstros</a>
+</nav>
 
 </body>
-<!-- 🎮 Botão do menu -->
-<button class="menu-btn" onclick="toggleMenu()">
-☰
-</button>
-
-<!-- 🎮 Menu lateral -->
-<nav class="menu-lateral">
-
-<a href="#destaques">Destaques</a>
-<a href="#Protagonistas"> Protagonistas</a>
-<a href="#Monstros"> Monstros</a>
-<a href="login.html">Login</a>
-
-
-</div>
-</nav>
 </html>
