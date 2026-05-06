@@ -1,9 +1,9 @@
 header {
-    background: linear-gradient(180deg, #f7f4f4, #070707);
-    color: rgb(85, 85, 85);
+    background: linear-gradient(180deg, #000000, #1a0000);
+    color: rgb(133, 129, 129);
     padding: 40px;
     text-align: center;
-    border-bottom: 3px solid #6b0000;
+    border-bottom: 3px solid #8b0000;
 }
 
 header h1 {
@@ -32,7 +32,7 @@ nav a {
 
 nav a:hover {
     background-color: #8b0000;
-    color: rgb(68, 64, 64);
+    color: rgb(8, 8, 8);
     transform: scale(1.1);
 }
 
@@ -43,7 +43,7 @@ nav a:hover {
 }
 
 article {
-    background-color: #000000;
+    background-color: #0d0d0d;
 
     border: 2px solid #8b0000;
     border-radius: 10px;
@@ -78,7 +78,7 @@ h2 {
     padding-left: 10px;
 }
 
-/* 🌫️ Neblina Camada 1 */
+/* 🌫️ Neblina animada */
 
 body::before {
     content: "";
@@ -87,57 +87,26 @@ body::before {
     top: 0;
     left: 0;
 
-    width: 200%;
+    width: 100%;
     height: 100%;
 
     background: url("https://www.transparenttextures.com/patterns/foggy-birds.png");
 
-    opacity: 0.12;
-
-    animation: neblina1 80s linear infinite;
-
-    pointer-events: none;
-
-    z-index: 1;
-}
-
-/* 🌫️ Neblina realista */
-
-body::before {
-    content: "";
-
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 200%;
-    height: 100%;
-
-    background: url("https://www.transparenttextures.com/patterns/fog.png");
-
     opacity: 0.15;
 
-    animation: neblina 120s linear infinite;
+    animation: neblina 60s linear infinite;
 
     pointer-events: none;
-
-    z-index: 1;
-
-    filter: blur(3px);
 }
 
-/* Movimento suave */
-
 @keyframes neblina {
-
     0% {
         transform: translateX(0);
     }
 
     100% {
-        transform: translateX(-600px);
+        transform: translateX(-500px);
     }
-
 }
 
 /* ⚡ Glitch no título */
@@ -154,7 +123,7 @@ header h1 {
     }
 
     25% {
-        text-shadow: -2px 0 rgb(0, 0, 102);
+        text-shadow: -2px 0 rgb(124, 0, 41);
     }
 
     50% {
@@ -162,7 +131,7 @@ header h1 {
     }
 
     75% {
-        text-shadow: -2px -2px rgb(216, 0, 54);
+        text-shadow: -2px -2px blue;
     }
 
     100% {
@@ -289,107 +258,45 @@ article:hover {
 
 }
 
-/* 💡 Luz piscando estilo terror */
-
-/* 🩸 Luz vermelha fraca à esquerda */
-
-.luz-piscando {
-
-position: fixed;
-
-top: 0;
-left: 0;
-
-width: 100%;
-height: 100%;
-
-/* Luz posicionada mais à esquerda */
-
-background: radial-gradient(
-circle at 20% 25%, /* ← posição da luz (mais à esquerda) */
-rgba(143, 89, 89, 0.12), /* vermelho sangue fraco */
-rgba(0, 0, 0, 0.95)
-);
-
-pointer-events: none;
-
-transition: opacity 0.1s;
-
-z-index: 0;
-
+.fog-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* Quando pisca */
-
-.luz-apagada {
-
-opacity: 0.4; /* não apaga totalmente */
-
+/* Camada 1 */
+.fog1 {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08), transparent 60%),
+              linear-gradient(to right, rgba(0,0,0,0.2), transparent 40%, rgba(0,0,0,0.2));
+  animation: fogMove 60s linear infinite;
+  filter: blur(40px);
 }
 
-
-
-/* Animação da luz */
-
-@keyframes piscarLuz {
-
-0%, 100% {
-opacity: 1;
+/* Camada 2 (mais leve) */
+.fog2 {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 50%, rgba(255,255,255,0.05), transparent 60%);
+  animation: fogMoveReverse 90s linear infinite;
+  filter: blur(60px);
 }
 
-92% {
-opacity: 0.4;
+/* Movimento */
+@keyframes fogMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
-94% {
-opacity: 1;
+@keyframes fogMoveReverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
 }
-
-96% {
-opacity: 0.3;
-}
-
-98% {
-opacity: 1;
-}
-
-}
-/* 💡 Luz ambiente */
-
-.luz-piscando {
-
-position: fixed;
-
-top: 0;
-left: 0;
-
-width: 150%;
-height: 100%;
-
-/* Luz branca suave */
-
-background: radial-gradient(
-circle at 15% 30%,
-rgba(126, 100, 100, 0.15)
-rgba(0,0,0,0.95)
-);
-
-pointer-events: none;
-
-transition: opacity 0.1s;
-
-z-index: 2;
-
-}
-
-/* Quando a luz falha */
-
-.luz-apagada {
-
-opacity: 0.2;
-
-}
-
-
-
-
