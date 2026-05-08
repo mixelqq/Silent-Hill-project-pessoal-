@@ -1,0 +1,96 @@
+body{
+    background: #0b0b0b;
+    color: #d6d6d6;
+    font-family: Arial, sans-serif;
+}
+
+header{
+    text-align: center;
+    padding: 30px;
+    border-bottom: 2px solid darkred;
+}
+
+.forum-container{
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.post{
+    background: rgba(20,20,20,0.9);
+    border-left: 4px solid darkred;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+
+.post:hover{
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(139,0,0,0.5);
+}
+.likes{
+    margin-top: 15px;
+}
+
+.likes button{
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid darkred;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.likes button:hover{
+    background: darkred;
+}
+
+.likes button{
+    background: #1a1a1a;
+    color: white;
+    border: 1px solid darkred;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 10px;
+}
+
+.likes button:hover{
+    background: darkred;
+}
+
+/* animação */
+
+.animar{
+    animation: pulse 0.4s;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform: scale(1);
+    }
+
+    50%{
+        transform: scale(1.2);
+    }
+
+    100%{
+        transform: scale(1);
+    }
+}
+.voltar-btn{
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 15px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border: 1px solid darkred;
+    transition: 0.3s;
+}
+
+.voltar-btn:hover{
+    background: darkred;
+    transform: scale(1.05);
+}

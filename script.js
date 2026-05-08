@@ -24,4 +24,13 @@ function login() {
 
     }
 }
+function fazerLogin(){
+
+    const email = document.getElementById("email").value;
+
+    localStorage.setItem("usuarioLogado", email);
+
+    window.location.href = "index.html";
+}
+
 
