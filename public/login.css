@@ -1,0 +1,117 @@
+/* Fundo  */
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Unifiquei as propriedades de fundo aqui */
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url("img/logintela.webp");
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    gap: 20px;              
+}
+
+.login-container {
+    background: rgba(0,0,0,0.85);
+    padding: 40px;
+    border: 2px solid #8b0000;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 25px #8b0000;
+}
+
+.login-container h1 {
+    color: red;
+    font-size: 40px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px red;
+}
+
+.subtitulo {
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #ccc;
+}
+
+form label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    background-color: #111;
+    border: 1px solid #8b0000;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box; 
+}
+
+form input:focus {
+    border-color: red;
+    box-shadow: 0 0 10px red;
+}
+
+button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(180deg, #8b0000, #400000);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(180deg, red, #8b0000);
+    box-shadow: 0 0 15px red;
+}
+
+.cadastro {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #ccc;
+}
+
+.cadastro a {
+    color: red;
+    text-decoration: none;
+}
+
+.homepage a {
+    color: #8b0000;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.homepage a:hover {
+    color: red;
+    text-shadow: 0 0 8px red;
+}

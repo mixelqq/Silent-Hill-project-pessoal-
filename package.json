@@ -1,0 +1,26 @@
+{
+  "name": "silent-hill-project-pessoal-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "forum.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mixelqq/Silent-Hill-project-pessoal-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mixelqq/Silent-Hill-project-pessoal-/issues"
+  },
+  "homepage": "https://github.com/mixelqq/Silent-Hill-project-pessoal-#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "sqlite3": "^6.0.1"
+  }
+}
