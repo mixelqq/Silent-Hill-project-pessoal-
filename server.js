@@ -33,6 +33,29 @@ app.post("/cadastro", (req, res) => {
     );
 });
 
+app.post("/login", (req, res) => {
+    const { email, senha } = req.body;
+
+    db.get(
+        "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
+        [email, senha],
+        (err, row) => {
+
+            if (err) {
+                return res.status(500).send("Erro no servidor");
+            }
+
+            if (row) {
+                res.send("Login realizado");
+            } else {
+                res.status(401).send("Email ou senha incorretos");
+            }
+        }
+    );
+});
+
+
+
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");
 });
