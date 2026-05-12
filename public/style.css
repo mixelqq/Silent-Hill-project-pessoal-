@@ -254,3 +254,187 @@ body {
     transform: translateX(5px);
 }
 
+/* 🔙 Botão voltar */
+
+.btn-voltar{
+
+position: fixed;
+
+top: 20px;
+left: 20px;
+
+background-color: #000;
+
+color: red;
+
+padding: 12px 20px;
+
+border: 2px solid #8b0000;
+
+border-radius: 8px;
+
+text-decoration: none;
+
+font-weight: bold;
+
+z-index: 1000;
+
+transition: 0.3s;
+
+box-shadow: 0 0 10px #8b0000;
+
+}
+
+.btn-voltar:hover{
+
+background-color: #8b0000;
+
+color: white;
+
+transform: scale(1.05);
+
+box-shadow: 0 0 20px red;
+
+}
+
+/* 🔍 Fundo escuro do zoom */
+
+.zoom-mapa{
+
+display: none;
+
+position: fixed;
+
+top: 0;
+left: 0;
+
+width: 100%;
+height: 100%;
+
+background: rgba(0,0,0,0.95);
+
+justify-content: center;
+align-items: center;
+
+z-index: 5000;
+
+}
+
+/* 🗺️ Imagem ampliada */
+
+.zoom-mapa img{
+
+max-width: 90%;
+
+max-height: 90%;
+
+border: 3px solid #8b0000;
+
+border-radius: 10px;
+
+box-shadow: 0 0 30px red;
+
+animation: zoomEntrada 0.3s ease;
+
+}
+
+/* animação */
+
+@keyframes zoomEntrada{
+
+from{
+
+transform: scale(0.7);
+
+opacity: 0;
+
+}
+
+to{
+
+transform: scale(1);
+
+opacity: 1;
+
+}
+
+}
+
+/* cursor */
+
+.mapa-card img{
+
+cursor: pointer;
+
+}
+
+
+/* 🗺️ Container exclusivo dos mapas */
+
+.mapas-container{
+
+margin-top: 140px;
+
+padding: 40px;
+
+display: flex;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+gap: 30px;
+
+}
+
+/* cards dos mapas */
+
+.mapas-container article{
+
+width: 320px;
+
+}
+
+/* 🩸 Efeito global Otherworld */
+
+.otherworld{
+
+background:
+linear-gradient(
+rgba(30,0,0,0.9),
+rgba(0,0,0,0.95)
+),
+
+url("img/rust.webp");
+
+background-size: cover;
+
+background-attachment: fixed;
+
+animation: pulsar 4s infinite;
+
+}
+
+/* títulos */
+
+.otherworld h1,
+.otherworld h2,
+.otherworld h3{
+
+color: #ff3c3c;
+
+text-shadow: 0 0 15px red;
+
+}
+
+/* artigos */
+
+.otherworld article{
+
+border-color: red;
+
+box-shadow: 0 0 20px darkred;
+
+}
+
+

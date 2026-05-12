@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mapas - Silent Hill</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- botão voltar -->
+<a href="index.html" class="btn-voltar">
+← Voltar para página principal
+</a>
+
+<header>
+
+<h1>Mapas de Silent Hill</h1>
+
+<p>
+Explore os locais amaldiçoados da franquia...
+</p>
+
+</header>
+
+<main class="mapas-container">
+
+<!-- SH1 -->
+<article>
+
+<h2>Silent Hill 1</h2>
+
+<img src="./img/Map_of_Old_Silent_Hill.webp" alt="Mapa Silent Hill 1" onclick="abrirMapa(this)">
+
+<p>
+Mapa clássico da cidade coberta por neblina.
+</p>
+
+</article>
+
+<!-- SH2 -->
+<article>
+
+<h2>Silent Hill 2</h2>
+
+<img src="./img/silent-hill-2-lakeview-hotel-walkthrough-93.445x250.webp" alt="Mapa Silent Hill 2" onclick="abrirMapa(this)">
+
+<p>
+ Lakeview Hotel 
+</p>
+
+</article>
+
+<!-- SH3 -->
+<article>
+
+<h2>Silent Hill 3</h2>
+
+<img src="./img/CentralSquareMap1F.webp" alt="Mapa Silent Hill 3" onclick="abrirMapa(this)">
+
+<p>
+Mapa do Shoping
+</p>
+
+</article>
+
+<!-- SH4 -->
+<article>
+
+<h2>Silent Hill 4</h2>
+
+<img src="./img/silent hill 4 mapa.jpg" alt="Mapa Silent Hill 4"onclick="abrirMapa(this)">
+
+<p>
+Apartamentos e mundos alternativos perturbadores.
+</p>
+
+</article>
+
+<!-- Silent Hill f -->
+<article>
+
+<h2>Silent Hill f</h2>
+
+<img src="./img/1579424.webp" alt="Mapa Silent Hill f"
+onclick="abrirMapa(this)">
+
+<p>
+Novo cenário japonês da franquia.
+</p>
+
+</article>
+
+</main>
+
+<script src="script.js"></script>
+<!-- Zoom do mapa -->
+
+<div id="zoomMapa" class="zoom-mapa" onclick="fecharMapa()">
+
+<img id="imgZoom">
+
+</div>
+
+</body>
+</html>
