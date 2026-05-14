@@ -395,46 +395,4 @@ width: 320px;
 
 }
 
-/* 🩸 Efeito global Otherworld */
-
-.otherworld{
-
-background:
-linear-gradient(
-rgba(30,0,0,0.9),
-rgba(0,0,0,0.95)
-),
-
-url("img/rust.webp");
-
-background-size: cover;
-
-background-attachment: fixed;
-
-animation: pulsar 4s infinite;
-
-}
-
-/* títulos */
-
-.otherworld h1,
-.otherworld h2,
-.otherworld h3{
-
-color: #ff3c3c;
-
-text-shadow: 0 0 15px red;
-
-}
-
-/* artigos */
-
-.otherworld article{
-
-border-color: red;
-
-box-shadow: 0 0 20px darkred;
-
-}
-
 
