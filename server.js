@@ -1,39 +1,46 @@
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
+const path = require("path");
 
 const app = express();
-const db = new sqlite3.Database("./database.db");
+const db = new sqlite3.Database("database.db");
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT,
-            senha TEXT
-        )
-    `);
-});
+app.use(express.static(path.join(__dirname, "public")));
 
+/* cria tabela */
+db.run(`
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE,
+    senha TEXT
+)
+`);
+
+/* cadastro */
 app.post("/cadastro", (req, res) => {
+
     const { email, senha } = req.body;
 
     db.run(
         "INSERT INTO usuarios (email, senha) VALUES (?, ?)",
         [email, senha],
-        (err) => {
+        function(err) {
+
             if (err) {
-                res.status(500).send("Erro");
-            } else {
-                res.send("Usuário cadastrado");
+                return res.send("Usuário já existe.");
             }
+
+            res.send("Cadastro realizado!");
         }
     );
 });
 
+/* login */
 app.post("/login", (req, res) => {
+
     const { email, senha } = req.body;
 
     db.get(
@@ -41,20 +48,18 @@ app.post("/login", (req, res) => {
         [email, senha],
         (err, row) => {
 
-            if (err) {
-                return res.status(500).send("Erro no servidor");
-            }
-
             if (row) {
-                res.send("Login realizado");
+                res.json({
+                    sucesso: true
+                });
             } else {
-                res.status(401).send("Email ou senha incorretos");
+                res.json({
+                    sucesso: false
+                });
             }
         }
     );
 });
-
-
 
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");

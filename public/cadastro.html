@@ -1,0 +1,41 @@
+<form id="cadastroForm">
+
+<input type="email" id="email">
+<input type="password" id="senha">
+
+<button>Cadastrar</button>
+
+</form>
+
+<script>
+
+document.getElementById("cadastroForm")
+.addEventListener("submit", async (e) => {
+
+e.preventDefault();
+
+const email =
+document.getElementById("email").value;
+
+const senha =
+document.getElementById("senha").value;
+
+await fetch("/cadastro", {
+
+method: "POST",
+
+headers: {
+"Content-Type": "application/json"
+},
+
+body: JSON.stringify({
+email,
+senha
+})
+
+});
+
+alert("Conta criada!");
+
+});
+</script>
