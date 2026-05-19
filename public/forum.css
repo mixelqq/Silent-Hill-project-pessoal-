@@ -94,3 +94,86 @@ header{
     background: darkred;
     transform: scale(1.05);
 }
+
+body {
+
+    background: #000;
+    color: white;
+    font-family: Arial;
+
+    padding: 30px;
+}
+
+h1 {
+
+    color: red;
+    text-align: center;
+}
+
+.forum-container {
+
+    max-width: 600px;
+
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+input,
+textarea {
+
+    background: #111;
+
+    border: 2px solid darkred;
+
+    color: white;
+
+    padding: 15px;
+
+    border-radius: 8px;
+}
+
+textarea {
+
+    height: 120px;
+
+    resize: none;
+}
+
+button {
+
+    background: darkred;
+
+    color: white;
+
+    border: none;
+
+    padding: 15px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button:hover {
+
+    background: red;
+}
+
+.post {
+
+    background: #111;
+
+    border: 2px solid darkred;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+}

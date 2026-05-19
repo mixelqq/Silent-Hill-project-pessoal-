@@ -143,6 +143,8 @@ body::before {
 
     background: linear-gradient(180deg, #000000, #1a0000);
 
+    padding-top: 120px;
+
     border-right: 3px solid #8b0000;
 
     transition: left 0.4s ease;
