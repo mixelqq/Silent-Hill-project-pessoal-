@@ -1,106 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fórum dos Fãs</title>
+
     <link rel="stylesheet" href="forum.css">
 </head>
+
 <body>
-<a href="index.html" class="voltar-btn">
-    ⬅ Voltar para a Wiki
-</a>
+
+    <a href="index.html" class="voltar-btn">
+        ⬅ Voltar para a Wiki
+    </a>
+
     <header>
         <h1>Fórum dos Fãs</h1>
-        <p>Compartilhe suas experiências em Silent Hill</p>
+
+        <p>
+            Compartilhe suas experiências em Silent Hill
+        </p>
     </header>
 
     <main class="forum-container">
 
+    
+
+        <!-- Post Fixo 1 -->
+
         <div class="post">
+
             <h2>Meu trauma com o hospital</h2>
+
             <p>
                 Nunca consegui esquecer os sons daquele corredor...
             </p>
+
             <span>Postado por James_W</span>
-             <div class="likes">
 
-        <button id="perturbador-1" onclick="curtirPost(1)">
-            👍 Perturbador
-        </button>
+            <div class="likes">
 
-        <button id="obra-1" onclick="ameiPost(1)">
-            ❤️ Obra-prima
-        </button>
+                <button
+                id="perturbador-1"
+                onclick="curtirPost(1)">
+                    👍 Perturbador
+                </button>
 
-        <button id="medo-1" onclick="medoPost(1)">
-            ☠️ Traumatizante
-        </button>
+                <span id="likes-1">0</span>
 
-    </div>
+            </div>
 
-
-</div>
         </div>
 
+        <!-- Post Fixo 2 -->
+
         <div class="post">
+
             <h2>Qual o monstro mais assustador?</h2>
+
             <p>
                 Pra mim sempre será o Pyramid Head.
             </p>
+
             <span>Postado por Heather_17</span>
-              <div class="likes">
 
-        <button id="perturbador-2" onclick="curtirPost(2)">
-            👍 Perturbador
-        </button>
+            <div class="likes">
 
-        <button id="obra-2" onclick="ameiPost(2)">
-            ❤️ Obra-prima
-        </button>
+                <button
+                id="perturbador-2"
+                onclick="curtirPost(2)">
+                    👍 Perturbador
+                </button>
 
-        <button id="medo-2" onclick="medoPost(2)">
-            ☠️ Traumatizante
-        </button>
+                <span id="likes-2">0</span>
 
-    </div>
+            </div>
 
         </div>
 
+        <!-- Posts Criados -->
+
+        <div id="posts"></div>
+
     </main>
 
-</body>
-</html>
+    <!-- Posts Criados -->
+<div id="posts"></div>
 
-<script src="forum.js"></script>
+<!-- Criar Post -->
+<div class="criar-post">
 
-<!DOCTYPE html>
-<html lang="pt-br">
+    <input
+    type="text"
+    id="titulo"
+    placeholder="Título do post">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Fórum Silent Hill</title>
-  <link rel="stylesheet" href="forum.css">
-</head>
+    <textarea
+    id="mensagem"
+    placeholder="Compartilhe seu pesadelo..."></textarea>
 
-<body>
-
-
-<div class="forum-container">
-
-  <input type="text" id="titulo" placeholder="Título do post">
-
-  <textarea id="mensagem"
-  placeholder="Compartilhe seu pesadelo..."></textarea>
-
-  <button onclick="criarPost()">
-    Postar
-  </button>
+    <button onclick="criarPost()">
+        Postar
+    </button>
 
 </div>
 
-<div id="posts"></div>
-
-<script src="forum.js"></script>
+    <script src="forum.js"></script>
 
 </body>
+
 </html>
