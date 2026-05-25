@@ -115,3 +115,8 @@ button:hover {
     color: red;
     text-shadow: 0 0 8px red;
 }
+
+.btn-voltar{
+    color: red;
+    gap: 16px;
+}
