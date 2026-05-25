@@ -115,11 +115,11 @@ function renderizarPosts() {
 
             </div>
 
-            <button onclick="deletarPost(${index})">
-                Excluir
-            </button>
-
-        </div>
+           <button
+class="btn-excluir"
+onclick="deletarPost(${index})">
+    Excluir
+</button>
         `;
 
         carregarCurtidas(index);
