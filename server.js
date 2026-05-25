@@ -5,9 +5,11 @@ const path = require("path");
 const app = express();
 const db = new sqlite3.Database("database.db");
 
+/* middleware */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* arquivos da pasta public */
 app.use(express.static(path.join(__dirname, "public")));
 
 /* cria tabela */
@@ -48,6 +50,13 @@ app.post("/login", (req, res) => {
         [email, senha],
         (err, row) => {
 
+            if (err) {
+                return res.status(500).json({
+                    sucesso: false,
+                    erro: "Erro no servidor"
+                });
+            }
+
             if (row) {
 
                 res.json({
@@ -62,4 +71,11 @@ app.post("/login", (req, res) => {
             }
         }
     );
+});
+
+/* inicia servidor */
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
