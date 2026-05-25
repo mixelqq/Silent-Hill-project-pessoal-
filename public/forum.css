@@ -1,8 +1,11 @@
 body{
-    background: #0b0b0b;
+    background: #000;
     color: #d6d6d6;
     font-family: Arial, sans-serif;
+    padding: 30px;
 }
+
+/* HEADER */
 
 header{
     text-align: center;
@@ -10,58 +13,113 @@ header{
     border-bottom: 2px solid darkred;
 }
 
-.forum-container{
-    width: 80%;
-    margin: auto;
-    padding: 20px;
+h1{
+    color: red;
+    text-align: center;
 }
 
+/* BOTÃO VOLTAR */
+
+.voltar-btn{
+
+    display: inline-block;
+
+    margin: 20px;
+
+    padding: 10px 15px;
+
+    background: #111;
+
+    color: rgb(235, 235, 235);
+
+    text-decoration: none;
+
+    border: 1px solid darkred;
+
+    transition: 0.3s;
+}
+
+.voltar-btn:hover{
+
+    background: darkred;
+
+    transform: scale(1.05);
+}
+
+/* CONTAINER PRINCIPAL */
+
+.forum-container{
+
+    width: 80%;
+
+    max-width: 900px;
+
+    margin: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+/* POSTS */
+
 .post{
-    background: rgba(20,20,20,0.9);
+
+    background: rgba(20,20,20,0.95);
+
     border-left: 4px solid darkred;
+
+    border-radius: 10px;
+
     padding: 20px;
-    margin-bottom: 20px;
+
     transition: 0.3s;
 }
 
 .post:hover{
+
     transform: scale(1.02);
+
     box-shadow: 0 0 15px rgba(139,0,0,0.5);
 }
+
+/* LIKES */
+
 .likes{
+
     margin-top: 15px;
 }
 
 .likes button{
-    background: #1a1a1a;
-    color: white;
-    border: 1px solid darkred;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: 0.3s;
-}
 
-.likes button:hover{
-    background: darkred;
-}
-
-.likes button{
     background: #1a1a1a;
+
     color: white;
+
     border: 1px solid darkred;
+
     padding: 8px 12px;
+
     cursor: pointer;
+
     transition: 0.3s;
+
     margin-right: 10px;
+
+    border-radius: 6px;
 }
 
 .likes button:hover{
+
     background: darkred;
 }
 
-/* animação */
+/* ANIMAÇÃO */
 
 .animar{
+
     animation: pulse 0.4s;
 }
 
@@ -79,106 +137,10 @@ header{
         transform: scale(1);
     }
 }
-.voltar-btn{
-    display: inline-block;
-    margin: 20px;
-    padding: 10px 15px;
-    background: #111;
-    color: white;
-    text-decoration: none;
-    border: 1px solid darkred;
-    transition: 0.3s;
-}
 
-.voltar-btn:hover{
-    background: darkred;
-    transform: scale(1.05);
-}
+/* ÁREA DE CRIAR POST */
 
-body {
-
-    background: #000;
-    color: white;
-    font-family: Arial;
-
-    padding: 30px;
-}
-
-h1 {
-
-    color: red;
-    text-align: center;
-}
-
-.forum-container {
-
-    max-width: 600px;
-
-    margin: auto;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 15px;
-}
-
-input,
-textarea {
-
-    background: #111;
-
-    border: 2px solid darkred;
-
-    color: white;
-
-    padding: 15px;
-
-    border-radius: 8px;
-}
-
-textarea {
-
-    height: 120px;
-
-    resize: none;
-}
-
-button {
-
-    background: darkred;
-
-    color: white;
-
-    border: none;
-
-    padding: 15px;
-
-    cursor: pointer;
-
-    border-radius: 8px;
-
-    font-size: 16px;
-}
-
-button:hover {
-
-    background: red;
-}
-
-.post {
-
-    background: #111;
-
-    border: 2px solid darkred;
-
-    padding: 20px;
-
-    border-radius: 10px;
-
-    margin-top: 20px;
-}
-
-.criar-post {
+.criar-post{
 
     width: 80%;
 
@@ -198,16 +160,19 @@ button:hover {
 
     padding: 25px;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     box-shadow: 0 0 20px #8b0000;
-
 }
 
+/* INPUTS */
+
 .criar-post input,
-.criar-post textarea {
+.criar-post textarea{
 
     width: 100%;
+
+    box-sizing: border-box;
 
     padding: 15px;
 
@@ -220,18 +185,18 @@ button:hover {
     border-radius: 8px;
 
     font-size: 16px;
-
 }
 
-.criar-post textarea {
+.criar-post textarea{
 
-    min-height: 150px;
+    min-height: 180px;
 
     resize: vertical;
-
 }
 
-.criar-post button {
+/* BOTÃO POSTAR */
+
+.criar-post button{
 
     width: 200px;
 
@@ -254,10 +219,35 @@ button:hover {
     transition: 0.3s;
 }
 
-.criar-post button:hover {
-
-    transform: scale(1.05);
+.criar-post button:hover{
 
     background: red;
 
+    transform: scale(1.05);
+}
+
+.btn-excluir{
+
+    background: #1a1a1a;
+
+    color: rgb(252, 252, 252);
+
+    border: 1px solid darkred;
+
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    margin-top: 10px;
+}
+
+.btn-excluir:hover{
+
+    background: darkred;
+
+    transform: scale(1.05);
 }

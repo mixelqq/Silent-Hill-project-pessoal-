@@ -49,18 +49,17 @@ app.post("/login", (req, res) => {
         (err, row) => {
 
             if (row) {
+
                 res.json({
                     sucesso: true
                 });
+
             } else {
+
                 res.json({
                     sucesso: false
                 });
             }
         }
     );
-});
-
-app.listen(3000, () => {
-    console.log("Servidor rodando em http://localhost:3000");
 });

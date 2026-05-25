@@ -1,11 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Cadastro - Silent Hill</title>
+
+<link rel="stylesheet" href="login.css">
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+<div class="login-container">
+
+<h1>CRIAR CONTA</h1>
+
+<p class="subtitulo">
+Entre na névoa...
+</p>
+
 <form id="cadastroForm">
 
-<input type="email" id="email">
-<input type="password" id="senha">
+<input
+type="email"
+id="email"
+placeholder="Digite seu e-mail"
+required
+>
 
-<button>Cadastrar</button>
+<input
+type="password"
+id="senha"
+placeholder="Digite sua senha"
+required
+>
+
+<button type="submit">
+Cadastrar
+</button>
+
+<div class="botoes-extras">
+
+<a href="login.html" class="btn-voltar">
+⬅ Voltar para Login
+</a>
+
+</div>
 
 </form>
+
+</div>
+
+</div>
 
 <script>
 
@@ -37,5 +87,11 @@ senha
 
 alert("Conta criada!");
 
+window.location.href = "login.html";
+
 });
+
 </script>
+
+</body>
+</html>
