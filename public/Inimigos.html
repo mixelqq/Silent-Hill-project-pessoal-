@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Inimigos - Silent Hill Wiki</title>
+  <link rel="stylesheet" href="style.css">   <!-- global -->
+  <link rel="stylesheet" href="inimigos.css"> <!-- só para inimigos -->
+</head>
+<body>
+  <div class="topo-voltar">
+    <a href="index.html" class="btn-voltar">⬅ Voltar para Principal</a>
+  </div>
+
+  <header>
+    <h1>Mais Inimigos de Silent Hill</h1>
+  </header>
+
+  <section>
+    <h2>Silent Hill 1</h2>
+    <div class="container-articles">
+      <article>
+        <img src="img/incubus.webp" alt="Incubus" class="zoomable">
+        <h3>Incubus</h3>
+        <p>Chefe final que representa o culto e a escuridão.</p>
+      </article>
+      <article>
+        <img src="img/groaner.webp" alt="Groaner" class="zoomable">
+        <h3>Groaner</h3>
+        <p>O cachorro de Silent Hill.</p>
+      </article>
+    </div>
+  </section>
+</body>
+</html>
+
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <span class="fechar">&times;</span>
+  <img class="lightbox-img" id="lightboxImg">
+  <p id="lightboxLegenda"></p>
+</div>
+
+<script>
+  const imagens = document.querySelectorAll(".zoomable");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const legenda = document.getElementById("lightboxLegenda");
+  const fechar = document.querySelector(".fechar");
+
+  imagens.forEach(img => {
+    img.addEventListener("click", () => {
+      lightbox.style.display = "flex";
+      lightboxImg.src = img.src;
+      legenda.textContent = img.alt;
+    });
+  });
+
+  fechar.addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  // Fecha clicando fora da imagem
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = "none";
+    }
+  });
+</script>
+
+
+
+  <!-- Silent Hill 2 -->
+  <section>
+    <h2>Silent Hill 2</h2>
+    <div class="container-articles">
+      <article>
+        <img src="img/pyramidhead.webp" alt="Pyramid Head">
+        <h3>Pyramid Head</h3>
+        <p>O executor de Silent Hill, punição e culpa.</p>
+      </article>
+      <article>
+        <img src="img/abstractdaddy.webp" alt="Abstract Daddy">
+        <h3>Abstract Daddy</h3>
+        <p>Pesadelo de Angela, simbolizando abuso e dor.</p>
+      </article>
+      <article>
+        <img src="img/lyingfigure.webp" alt="Lying Figure">
+        <h3>Lying Figure</h3>
+        <p>Envolto em pele apertada, repressão e sofrimento.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Silent Hill 3 -->
+  <section>
+    <h2>Silent Hill 3</h2>
+    <div class="container-articles">
+      <article>
+        <img src="img/closer.webp" alt="Closer">
+        <h3>Closer</h3>
+        <p>Seres altos e brutais que simbolizam agressividade.</p>
+      </article>
+      <article>
+        <img src="img/nurse.webp" alt="Nurse">
+        <h3>Nurse</h3>
+        <p>Enfermeiras perturbadoras, doença e desejo reprimido.</p>
+      </article>
+    </div>
+  </section>
+</body>
+</html>
