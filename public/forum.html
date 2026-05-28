@@ -1,113 +1,137 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
     <title>Fórum dos Fãs</title>
 
-    <link rel="stylesheet" href="forum.css">
+    <link
+    rel="stylesheet"
+    href="forum.css">
+
 </head>
 
 <body>
 
-    <a href="index.html" class="voltar-btn">
+    <a
+    href="index.html"
+    class="voltar-btn">
+
         ⬅ Voltar para a Wiki
+
     </a>
 
     <header>
-        <h1>Fórum dos Fãs</h1>
+
+        <h1>
+            Fórum dos Fãs
+        </h1>
 
         <p>
             Compartilhe suas experiências em Silent Hill
         </p>
+
     </header>
 
+    <!-- PERFIL -->
+
+    <div class="painel-usuario">
+
+        <img
+        id="avatar"
+        src="/avatars/default.png"
+        class="avatar">
+
+        <div class="usuario-info">
+
+            <span id="email-usuario">
+
+                Não logado
+
+            </span>
+
+            <input
+            type="file"
+            id="avatarInput">
+
+            <button onclick="uploadAvatar()">
+
+                Alterar Avatar
+
+            </button>
+
+            <button onclick="logout()">
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ADMIN -->
+
+    <div
+    id="painel-admin"
+    class="painel-admin"
+    style="display:none;">
+
+        <h2>
+            Painel Administrativo
+        </h2>
+
+        <p>
+            Você possui acesso administrativo.
+        </p>
+
+        <button onclick="carregarPosts()">
+
+            Atualizar Posts
+
+        </button>
+
+    </div>
+
+    <!-- POSTS -->
+
     <main class="forum-container">
-
-    
-
-        <!-- Post Fixo 1 -->
-
-        <div class="post">
-
-            <h2>Meu trauma com o hospital</h2>
-
-            <p>
-                Nunca consegui esquecer os sons daquele corredor...
-            </p>
-
-            <span>Postado por James_W</span>
-
-            <div class="likes">
-
-                <button
-                id="perturbador-1"
-                onclick="curtirPost(1)">
-                    👍 Perturbador
-                </button>
-
-                <span id="likes-1">0</span>
-
-            </div>
-
-        </div>
-
-        <!-- Post Fixo 2 -->
-
-        <div class="post">
-
-            <h2>Qual o monstro mais assustador?</h2>
-
-            <p>
-                Pra mim sempre será o Pyramid Head.
-            </p>
-
-            <span>Postado por Heather_17</span>
-
-            <div class="likes">
-
-                <button
-                id="perturbador-2"
-                onclick="curtirPost(2)">
-                    👍 Perturbador
-                </button>
-
-                <span id="likes-2">0</span>
-
-            </div>
-
-        </div>
-
-        <!-- Posts Criados -->
 
         <div id="posts"></div>
 
     </main>
 
-    <!-- Posts Criados -->
-<div id="posts"></div>
+    <!-- CRIAR POST -->
 
-<!-- Criar Post -->
-<div class="criar-post">
+    <div class="criar-post">
 
-    <input
-    type="text"
-    id="titulo"
-    placeholder="Título do post">
+        <input
+        type="text"
+        id="titulo"
+        placeholder="Título do post">
 
-    <textarea
-    id="mensagem"
-    placeholder="Compartilhe seu pesadelo..."></textarea>
+        <textarea
+        id="mensagem"
+        placeholder="Compartilhe seu pesadelo..."></textarea>
 
-    <button onclick="criarPost()">
-        Postar
-    </button>
+        <button onclick="criarPost()">
 
-</div>
+            Postar
+
+        </button>
+
+    </div>
 
     <script src="forum.js"></script>
 
 </body>
 
 </html>
+

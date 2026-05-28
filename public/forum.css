@@ -1,253 +1,430 @@
-body{
-    background: #000;
-    color: #d6d6d6;
-    font-family: Arial, sans-serif;
-    padding: 30px;
+
+/* ===== RESET ===== */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
 }
 
-/* HEADER */
+/* ===== BODY ===== */
 
-header{
+body {
+
+    background:
+    radial-gradient(
+        circle,
+        #111 0%,
+        #050505 100%
+    );
+
+    color: #d2d2d2;
+
+    font-family: Georgia, serif;
+
+    background-attachment: fixed;
+
+    padding: 20px;
+}
+
+/* ===== HEADER ===== */
+
+header {
+
     text-align: center;
-    padding: 30px;
-    border-bottom: 2px solid darkred;
+
+    margin-bottom: 40px;
 }
 
-h1{
-    color: red;
-    text-align: center;
+header h1 {
+
+    font-size: 48px;
+
+    color: #cfcfcf;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+    0 0 15px rgba(255,255,255,0.1);
 }
 
-/* BOTÃO VOLTAR */
+header p {
 
-.voltar-btn{
+    margin-top: 10px;
+
+    color: #888;
+}
+
+/* ===== VOLTAR ===== */
+
+.voltar-btn {
 
     display: inline-block;
 
-    margin: 20px;
+    margin-bottom: 20px;
 
-    padding: 10px 15px;
-
-    background: #111;
-
-    color: rgb(235, 235, 235);
+    color: #bbb;
 
     text-decoration: none;
 
-    border: 1px solid darkred;
+    border: 1px solid #444;
+
+    padding: 10px 15px;
 
     transition: 0.3s;
 }
 
-.voltar-btn:hover{
+.voltar-btn:hover {
 
-    background: darkred;
+    background: #220000;
 
-    transform: scale(1.05);
+    border-color: darkred;
+
+    color: white;
 }
 
-/* CONTAINER PRINCIPAL */
+/* ===== PERFIL ===== */
 
-.forum-container{
-
-    width: 80%;
-
-    max-width: 900px;
-
-    margin: auto;
+.painel-usuario {
 
     display: flex;
 
-    flex-direction: column;
+    align-items: center;
 
     gap: 20px;
-}
 
-/* POSTS */
+    background:
+    linear-gradient(
+        to bottom,
+        #151515,
+        #0b0b0b
+    );
 
-.post{
-
-    background: rgba(20,20,20,0.95);
-
-    border-left: 4px solid darkred;
-
-    border-radius: 10px;
+    border: 1px solid #333;
 
     padding: 20px;
 
-    transition: 0.3s;
+    margin-bottom: 30px;
+
+    border-radius: 10px;
+
+    box-shadow:
+    0 0 25px rgba(0,0,0,0.5);
 }
 
-.post:hover{
+.avatar {
 
-    transform: scale(1.02);
+    width: 100px;
 
-    box-shadow: 0 0 15px rgba(139,0,0,0.5);
+    height: 100px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 2px solid #666;
 }
 
-/* LIKES */
-
-.likes{
-
-    margin-top: 15px;
-}
-
-.likes button{
-
-    background: #1a1a1a;
-
-    color: white;
-
-    border: 1px solid darkred;
-
-    padding: 8px 12px;
-
-    cursor: pointer;
-
-    transition: 0.3s;
-
-    margin-right: 10px;
-
-    border-radius: 6px;
-}
-
-.likes button:hover{
-
-    background: darkred;
-}
-
-/* ANIMAÇÃO */
-
-.animar{
-
-    animation: pulse 0.4s;
-}
-
-@keyframes pulse{
-
-    0%{
-        transform: scale(1);
-    }
-
-    50%{
-        transform: scale(1.2);
-    }
-
-    100%{
-        transform: scale(1);
-    }
-}
-
-/* ÁREA DE CRIAR POST */
-
-.criar-post{
-
-    width: 80%;
-
-    max-width: 700px;
-
-    margin: 50px auto;
+.usuario-info {
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 15px;
-
-    background: #0a0a0a;
-
-    border: 2px solid #8b0000;
-
-    padding: 25px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 0 20px #8b0000;
+    gap: 10px;
 }
 
-/* INPUTS */
+/* ===== ADMIN ===== */
 
-.criar-post input,
-.criar-post textarea{
+.painel-admin {
 
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 15px;
-
-    background: #111;
-
-    color: white;
-
-    border: 1px solid #8b0000;
-
-    border-radius: 8px;
-
-    font-size: 16px;
-}
-
-.criar-post textarea{
-
-    min-height: 180px;
-
-    resize: vertical;
-}
-
-/* BOTÃO POSTAR */
-
-.criar-post button{
-
-    width: 200px;
-
-    align-self: center;
-
-    padding: 14px;
-
-    background: #8b0000;
-
-    color: white;
-
-    border: none;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    font-size: 16px;
-
-    transition: 0.3s;
-}
-
-.criar-post button:hover{
-
-    background: red;
-
-    transform: scale(1.05);
-}
-
-.btn-excluir{
-
-    background: #1a1a1a;
-
-    color: rgb(252, 252, 252);
+    background:
+    linear-gradient(
+        to bottom,
+        #2b0000,
+        #130000
+    );
 
     border: 1px solid darkred;
 
-    padding: 8px 14px;
+    padding: 20px;
 
-    border-radius: 6px;
+    margin-bottom: 30px;
+
+    border-radius: 10px;
+}
+
+.painel-admin h2 {
+
+    color: #ff4d4d;
+}
+
+/* ===== POSTS ===== */
+
+.post {
+
+    background:
+    linear-gradient(
+        to bottom,
+        #161616,
+        #0d0d0d
+    );
+
+    border: 1px solid #333;
+
+    padding: 20px;
+
+    margin-bottom: 25px;
+
+    position: relative;
+
+    box-shadow:
+    0 0 20px rgba(0,0,0,0.5);
+}
+
+.post::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 2px;
+
+    background: darkred;
+}
+
+.post h2 {
+
+    color: #d8d8d8;
+
+    margin-bottom: 10px;
+}
+
+.post p {
+
+    margin-bottom: 10px;
+
+    line-height: 1.5;
+}
+
+.post span {
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+/* ===== FIXADO ===== */
+
+.fixado {
+
+    border: 2px solid gold;
+}
+
+.tag-fixado {
+
+    color: gold;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+/* ===== BOTÕES ===== */
+
+button {
+
+    background:
+    linear-gradient(
+        to bottom,
+        #2a2a2a,
+        #111
+    );
+
+    color: #d6d6d6;
+
+    border: 1px solid #555;
+
+    padding: 10px 16px;
+
+    margin-top: 10px;
 
     cursor: pointer;
 
+    font-family: serif;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
     transition: 0.3s;
 
-    margin-top: 10px;
+    border-radius: 4px;
+
+    box-shadow:
+    0 0 10px rgba(0,0,0,0.5);
 }
 
-.btn-excluir:hover{
+button:hover {
 
-    background: darkred;
+    background:
+    linear-gradient(
+        to bottom,
+        #550000,
+        #220000
+    );
 
-    transform: scale(1.05);
+    color: white;
+
+    border-color: #aa0000;
+
+    transform: scale(1.03);
+
+    box-shadow:
+    0 0 15px rgba(255,0,0,0.3);
+}
+
+button:active {
+
+    transform: scale(0.98);
+}
+
+/* ===== INPUTS ===== */
+
+input,
+textarea {
+
+    width: 100%;
+
+    background: #111;
+
+    border: 1px solid #444;
+
+    color: #ddd;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+}
+
+textarea {
+
+    resize: vertical;
+
+    min-height: 120px;
+}
+
+input:focus,
+textarea:focus {
+
+    border-color: darkred;
+
+    box-shadow:
+    0 0 10px rgba(255,0,0,0.2);
+}
+
+/* ===== CRIAR POST ===== */
+
+.criar-post {
+
+    background:
+    linear-gradient(
+        to bottom,
+        #151515,
+        #0d0d0d
+    );
+
+    border: 1px solid #333;
+
+    padding: 20px;
+
+    margin-top: 30px;
+
+    border-radius: 10px;
+}
+
+/* ===== CURTIDAS ===== */
+
+.likes {
+
+    margin-top: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+/* ===== COMENTÁRIOS ===== */
+
+.comentarios {
+
+    margin-top: 20px;
+
+    border-top: 1px solid #333;
+
+    padding-top: 15px;
+}
+
+.comentarios h3 {
+
+    margin-bottom: 10px;
+
+    color: #aaa;
+}
+
+.comentario {
+
+    background: #111;
+
+    border: 1px solid #222;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border-radius: 5px;
+}
+
+.comentario b {
+
+    color: #cfcfcf;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 768px) {
+
+    .painel-usuario {
+
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .avatar {
+
+        width: 80px;
+
+        height: 80px;
+    }
+
+    header h1 {
+
+        font-size: 36px;
+    }
 }
