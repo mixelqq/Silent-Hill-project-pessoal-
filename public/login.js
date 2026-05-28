@@ -1,75 +1,45 @@
-function login() {
 
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
+app.post("/login", (req, res) => {
 
-    fetch("/login", {
+    const email = req.body.email;
 
-        method: "POST",
+    const senha = req.body.senha;
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+    db.get(
 
-        body: JSON.stringify({
-            email: email,
-            senha: senha
-        })
-    })
+        "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
 
-    .then(res => res.json())
+        [email, senha],
 
-    .then(data => {
+        (err, usuario) => {
 
-        if (data.sucesso) {
+            if (err) {
 
-            alert("Login realizado!");
+                console.log(err);
 
-            window.location.href = "index.html";
+                return res.status(500).send(
+                    "Problema no servidor"
+                );
+            }
 
-        } else {
+            if (!usuario) {
 
-            alert("Email ou senha incorretos");
+                return res.send(
+                    "Usuário não encontrado"
+                );
+            }
+
+            if (usuario.banido === 1) {
+
+                return res.send(
+                    "Você foi banido"
+                );
+            }
+
+            req.session.usuario = usuario;
+
+            res.send("Login realizado");
         }
-    })
+    );
+});
 
-    .catch(() => {
-        alert("Erro no servidor");
-    });
-}
-
-function cadastrar() {
-
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    fetch("/cadastro", {
-
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-            email: email,
-            senha: senha
-        })
-    })
-
-    .then(res => res.text())
-
-    .then(data => {
-
-        alert(data);
-
-        if (data.includes("realizado")) {
-
-            window.location.href = "login.html";
-        }
-    })
-
-    .catch(() => {
-        alert("Erro ao cadastrar");
-    });
-}
