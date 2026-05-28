@@ -73,29 +73,3 @@ function cadastrar() {
         alert("Erro ao cadastrar");
     });
 }
-
-/* login */
-app.post("/login", (req, res) => {
-
-    const { email, senha } = req.body;
-
-    db.get(
-        "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
-        [email, senha],
-        (err, row) => {
-
-            if (row) {
-
-                res.json({
-                    sucesso: true
-                });
-
-            } else {
-
-                res.json({
-                    sucesso: false
-                });
-            }
-        }
-    );
-});
