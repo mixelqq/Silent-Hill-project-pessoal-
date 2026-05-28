@@ -1,97 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Cadastro - Silent Hill</title>
-
-<link rel="stylesheet" href="login.css">
-
-</head>
-
-<body>
-
-<div class="main-wrapper">
-
-<div class="login-container">
-
-<h1>CRIAR CONTA</h1>
-
-<p class="subtitulo">
-Entre na névoa...
-</p>
-
 <form id="cadastroForm">
-
-<input
-type="email"
-id="email"
-placeholder="Digite seu e-mail"
-required
->
-
-<input
-type="password"
-id="senha"
-placeholder="Digite sua senha"
-required
->
-
-<button type="submit">
-Cadastrar
-</button>
-
-<div class="botoes-extras">
-
-<a href="login.html" class="btn-voltar">
-⬅ Voltar para Login
-</a>
-
-</div>
-
+  <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+  <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+  <button type="submit">Cadastrar</button>
 </form>
 
-</div>
-
-</div>
-
 <script>
+  document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-document.getElementById("cadastroForm")
-.addEventListener("submit", async (e) => {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-e.preventDefault();
+    const res = await fetch("/cadastro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    });
 
-const email =
-document.getElementById("email").value;
+    const msg = await res.text();
+    alert(msg);
 
-const senha =
-document.getElementById("senha").value;
-
-await fetch("/cadastro", {
-
-method: "POST",
-
-headers: {
-"Content-Type": "application/json"
-},
-
-body: JSON.stringify({
-email,
-senha
-})
-
-});
-
-alert("Conta criada!");
-
-window.location.href = "login.html";
-
-});
-
+    if (msg === "Cadastro realizado") {
+      window.location.href = "login.html";
+    }
+  });
 </script>
-
-</body>
-</html>

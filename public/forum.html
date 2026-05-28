@@ -1,137 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-    <title>Fórum dos Fãs</title>
-
-    <link
-    rel="stylesheet"
-    href="forum.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum dos Fãs</title>
+  <link rel="stylesheet" href="forum.css">
 </head>
-
 <body>
+  <a href="index.html" class="voltar-btn">⬅ Voltar para a Wiki</a>
 
-    <a
-    href="index.html"
-    class="voltar-btn">
+  <header>
+    <h1>Fórum dos Fãs</h1>
+    <p>Compartilhe suas experiências em Silent Hill</p>
+  </header>
 
-        ⬅ Voltar para a Wiki
-
-    </a>
-
-    <header>
-
-        <h1>
-            Fórum dos Fãs
-        </h1>
-
-        <p>
-            Compartilhe suas experiências em Silent Hill
-        </p>
-
-    </header>
-
-    <!-- PERFIL -->
-
-    <div class="painel-usuario">
-
-        <img
-        id="avatar"
-        src="/avatars/default.png"
-        class="avatar">
-
-        <div class="usuario-info">
-
-            <span id="email-usuario">
-
-                Não logado
-
-            </span>
-
-            <input
-            type="file"
-            id="avatarInput">
-
-            <button onclick="uploadAvatar()">
-
-                Alterar Avatar
-
-            </button>
-
-            <button onclick="logout()">
-
-                Logout
-
-            </button>
-
-        </div>
-
+  <!-- PERFIL -->
+  <div class="painel-usuario">
+    <img id="avatar" src="/avatars/default.png" class="avatar">
+    <div class="usuario-info">
+      <span id="email-usuario">Não logado</span>
+      <input type="file" id="avatarInput">
+      <button onclick="uploadAvatar()">Alterar Avatar</button>
+      <button onclick="logout()">Logout</button>
     </div>
+  </div>
 
-    <!-- ADMIN -->
+  <!-- ADMIN -->
+  <div id="painel-admin" class="painel-admin" style="display:none;">
+    <h2>Painel Administrativo</h2>
+    <p>Você possui acesso administrativo.</p>
+    <button onclick="carregarPosts()">Atualizar Posts</button>
+  </div>
 
-    <div
-    id="painel-admin"
-    class="painel-admin"
-    style="display:none;">
+  <!-- POSTS -->
+  <main class="forum-container">
+    <div id="posts"></div>
+  </main>
 
-        <h2>
-            Painel Administrativo
-        </h2>
+  <!-- CRIAR POST -->
+  <div class="criar-post">
+    <input type="text" id="titulo" placeholder="Título do post">
+    <textarea id="mensagem" placeholder="Compartilhe seu pesadelo..."></textarea>
+    <button onclick="criarPost()">Postar</button>
+  </div>
 
-        <p>
-            Você possui acesso administrativo.
-        </p>
-
-        <button onclick="carregarPosts()">
-
-            Atualizar Posts
-
-        </button>
-
-    </div>
-
-    <!-- POSTS -->
-
-    <main class="forum-container">
-
-        <div id="posts"></div>
-
-    </main>
-
-    <!-- CRIAR POST -->
-
-    <div class="criar-post">
-
-        <input
-        type="text"
-        id="titulo"
-        placeholder="Título do post">
-
-        <textarea
-        id="mensagem"
-        placeholder="Compartilhe seu pesadelo..."></textarea>
-
-        <button onclick="criarPost()">
-
-            Postar
-
-        </button>
-
-    </div>
-
-    <script src="forum.js"></script>
-
+  <script src="forum.js"></script>
 </body>
-
 </html>
+
 
