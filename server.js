@@ -131,12 +131,19 @@ app.post("/login", (req, res) => {
     const senha = req.body.senha;
 
     db.get(
-
         "SELECT * FROM usuarios WHERE email = ? AND senha = ?",
-
         [email, senha],
 
         (err, usuario) => {
+
+            if (err) {
+
+                console.log(err);
+
+                return res.status(500).send(
+                    "Problema no servidor"
+                );
+            }
 
             if (!usuario) {
 
@@ -145,7 +152,7 @@ app.post("/login", (req, res) => {
                 );
             }
 
-            if (usuario.banido) {
+            if (usuario.banido === 1) {
 
                 return res.send(
                     "Você foi banido"
