@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Silent Hill</title>
   <link rel="stylesheet" href="login.css">
 </head>
@@ -35,19 +36,29 @@
       const email = document.getElementById("email").value;
       const senha = document.getElementById("senha").value;
 
-      const res = await fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha })
-      });
+      try {
+        const res = await fetch("/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, senha })
+        });
 
-      const data = await res.json();
-      alert(data.message);
+        const data = await res.json();
 
-      if (data.success) {
-        window.location.href = "index.html"; // redireciona para home
+        if (data.erro) {
+          alert(data.erro); // mostra mensagem de erro
+        } else if (data.sucesso) {
+          if (data.sucesso === true) {
+            window.location.href = "index.html"; // redireciona para home
+          } else {
+            alert(data.sucesso); // caso venha uma string
+          }
+        }
+      } catch (err) {
+        alert("Erro de conexão com o servidor");
       }
     });
   </script>
 </body>
 </html>
+

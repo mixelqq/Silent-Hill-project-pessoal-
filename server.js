@@ -3,6 +3,7 @@ const session = require("express-session");
 const sqlite3 = require("sqlite3").verbose();
 const multer = require("multer");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const app = express();
 const db = new sqlite3.Database("./database.db");
@@ -24,14 +25,25 @@ app.use(session({
 UPLOAD AVATAR
 ========================= */
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, "public/avatars/");
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+  destination: function(req, file, cb) {
+    // usa caminho absoluto para evitar erro ENOENT
+    cb(null, path.join(__dirname, "public", "avatar"));
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 const upload = multer({ storage: storage });
+
+app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
+  if (!req.session.usuario) return res.json({ erro: "Faça login" });
+  const avatar = req.file.filename;
+  db.run("UPDATE usuarios SET avatar = ? WHERE id = ?", [avatar, req.session.usuario.id], () => {
+    req.session.usuario.avatar = avatar;
+    res.json({ sucesso: "Avatar atualizado", avatar });
+  });
+});
+
 
 /* =========================
 TABELAS
@@ -47,9 +59,10 @@ CADASTRO
 ========================= */
 app.post("/cadastro", (req, res) => {
     const { email, senha } = req.body;
-    db.run("INSERT INTO usuarios (email, senha) VALUES (?, ?)", [email, senha], function(err) {
-        if (err) return res.send("Usuário já existe");
-        res.send("Cadastro realizado");
+    const hash = bcrypt.hashSync(senha, 10);
+    db.run("INSERT INTO usuarios (email, senha) VALUES (?, ?)", [email, hash], function(err) {
+        if (err) return res.json({ erro: "Usuário já existe" });
+        res.json({ sucesso: "Cadastro realizado" });
     });
 });
 
@@ -58,13 +71,16 @@ LOGIN
 ========================= */
 app.post("/login", (req, res) => {
     const { email, senha } = req.body;
-    db.get("SELECT * FROM usuarios WHERE email = ? AND senha = ?", [email, senha], (err, usuario) => {
-        if (err) return res.status(500).send("Problema no servidor");
-        if (!usuario) return res.send("Usuário não encontrado");
-        if (usuario.banido === 1) return res.send("Você foi banido");
+    db.get("SELECT * FROM usuarios WHERE email = ?", [email], (err, usuario) => {
+        if (err) return res.status(500).json({ erro: "Problema no servidor" });
+        if (!usuario) return res.json({ erro: "Usuário não encontrado" });
+        if (usuario.banido === 1) return res.json({ erro: "Você foi banido" });
 
-        req.session.usuario = usuario;
-        res.redirect("/"); // redireciona para home
+        bcrypt.compare(senha, usuario.senha, (err, ok) => {
+            if (!ok) return res.json({ erro: "Senha incorreta" });
+            req.session.usuario = usuario;
+            res.json({ sucesso: true });
+        });
     });
 });
 
@@ -80,7 +96,7 @@ app.get("/usuario", (req, res) => {
 LOGOUT
 ========================= */
 app.get("/logout", (req, res) => {
-    req.session.destroy(() => res.send("Logout realizado"));
+    req.session.destroy(() => res.json({ sucesso: "Logout realizado" }));
 });
 
 /* =========================
@@ -94,10 +110,10 @@ app.get("/posts", (req, res) => {
 
 /* criar post */
 app.post("/criar-post", (req, res) => {
-    if (!req.session.usuario) return res.send("Faça login");
+    if (!req.session.usuario) return res.json({ erro: "Faça login" });
     const { titulo, mensagem } = req.body;
     db.run("INSERT INTO posts (titulo, mensagem, autor) VALUES (?, ?, ?)", [titulo, mensagem, req.session.usuario.email], () => {
-        res.send("Post criado");
+        res.json({ sucesso: "Post criado" });
     });
 });
 
@@ -112,16 +128,16 @@ app.post("/curtir/:id", (req, res) => {
 
 /* deletar */
 app.delete("/deletar/:id", (req, res) => {
-    if (!req.session.usuario) return res.send("Login necessário");
-    if (req.session.usuario.role !== "admin") return res.send("Apenas admin");
-    db.run("DELETE FROM posts WHERE id = ?", [req.params.id], () => res.send("Post deletado"));
+    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
+    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
+    db.run("DELETE FROM posts WHERE id = ?", [req.params.id], () => res.json({ sucesso: "Post deletado" }));
 });
 
 /* fixar */
 app.post("/fixar/:id", (req, res) => {
-    if (!req.session.usuario) return res.send("Login necessário");
-    if (req.session.usuario.role !== "admin") return res.send("Apenas admin");
-    db.run("UPDATE posts SET fixado = 1 WHERE id = ?", [req.params.id], () => res.send("Post fixado"));
+    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
+    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
+    db.run("UPDATE posts SET fixado = 1 WHERE id = ?", [req.params.id], () => res.json({ sucesso: "Post fixado" }));
 });
 
 /* =========================
@@ -131,28 +147,28 @@ app.get("/comentarios/:id", (req, res) => {
     db.all("SELECT * FROM comentarios WHERE post_id = ?", [req.params.id], (err, rows) => res.json(rows));
 });
 app.post("/comentar/:id", (req, res) => {
-    if (!req.session.usuario) return res.send("Faça login");
-    db.run("INSERT INTO comentarios (post_id, autor, comentario) VALUES (?, ?, ?)", [req.params.id, req.session.usuario.email, req.body.comentario], () => res.send("Comentado"));
+    if (!req.session.usuario) return res.json({ erro: "Faça login" });
+    db.run("INSERT INTO comentarios (post_id, autor, comentario) VALUES (?, ?, ?)", [req.params.id, req.session.usuario.email, req.body.comentario], () => res.json({ sucesso: "Comentado" }));
 });
 
 /* =========================
 BANIR
 ========================= */
 app.post("/banir", (req, res) => {
-    if (!req.session.usuario) return res.send("Login necessário");
-    if (req.session.usuario.role !== "admin") return res.send("Apenas admin");
-    db.run("UPDATE usuarios SET banido = 1 WHERE email = ?", [req.body.email], () => res.send("Usuário banido"));
+    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
+    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
+    db.run("UPDATE usuarios SET banido = 1 WHERE email = ?", [req.body.email], () => res.json({ sucesso: "Usuário banido" }));
 });
 
 /* =========================
 AVATAR
 ========================= */
 app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
-    if (!req.session.usuario) return res.send("Faça login");
+    if (!req.session.usuario) return res.json({ erro: "Faça login" });
     const avatar = req.file.filename;
     db.run("UPDATE usuarios SET avatar = ? WHERE id = ?", [avatar, req.session.usuario.id], () => {
         req.session.usuario.avatar = avatar;
-        res.send("Avatar atualizado");
+        res.json({ sucesso: "Avatar atualizado" });
     });
 });
 
@@ -162,4 +178,3 @@ SERVIDOR
 app.listen(3000, () => {
     console.log("Servidor rodando em http://localhost:3000");
 });
-

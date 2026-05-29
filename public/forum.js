@@ -8,7 +8,8 @@ async function carregarUsuario() {
   }
 
   document.getElementById("email-usuario").innerText = usuario.email;
-  document.getElementById("avatar").src = "/avatars/" + usuario.avatar;
+  // caminho corrigido: pasta é "avatar" (singular)
+  document.getElementById("avatar").src = "avatar/" + usuario.avatar;
 
   if (usuario.role === "admin") {
     document.getElementById("painel-admin").style.display = "block";
@@ -22,10 +23,19 @@ async function uploadAvatar() {
   const formData = new FormData();
   formData.append("avatar", input.files[0]);
 
-  const res = await fetch("/upload-avatar", { method: "POST", body: formData });
-  const msg = await res.text();
-  alert(msg);
-  carregarUsuario();
+  try {
+    const res = await fetch("/upload-avatar", { method: "POST", body: formData });
+    const data = await res.json(); // corrigido: backend responde JSON
+
+    if (data.erro) {
+      alert(data.erro);
+    } else {
+      alert(data.sucesso);
+      document.getElementById("avatar").src = "avatar/" + data.avatar;
+    }
+  } catch (err) {
+    alert("Erro ao enviar avatar");
+  }
 }
 
 async function logout() {
