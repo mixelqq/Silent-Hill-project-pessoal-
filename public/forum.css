@@ -428,3 +428,18 @@ textarea:focus {
         font-size: 36px;
     }
 }
+
+button.excluir {
+  background: linear-gradient(to bottom, #550000, #220000);
+  color: #fff;
+  border: 1px solid #aa0000;
+  margin-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button.excluir:hover {
+  background: linear-gradient(to bottom, #770000, #330000);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255,0,0,0.4);
+}

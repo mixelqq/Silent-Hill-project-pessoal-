@@ -8,7 +8,6 @@ async function carregarUsuario() {
   }
 
   document.getElementById("email-usuario").innerText = usuario.email;
-  // caminho corrigido: pasta é "avatar" (singular)
   document.getElementById("avatar").src = "avatar/" + usuario.avatar;
 
   if (usuario.role === "admin") {
@@ -16,31 +15,23 @@ async function carregarUsuario() {
   }
 }
 
-async function uploadAvatar() {
-  const input = document.getElementById("avatarInput");
-  if (!input.files.length) return alert("Selecione uma imagem");
+async function criarPost() {
+  const titulo = document.getElementById("titulo").value;
+  const mensagem = document.getElementById("mensagem").value;
 
-  const formData = new FormData();
-  formData.append("avatar", input.files[0]);
+  const res = await fetch("/criar-post", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ titulo, mensagem })
+  });
 
-  try {
-    const res = await fetch("/upload-avatar", { method: "POST", body: formData });
-    const data = await res.json(); // corrigido: backend responde JSON
-
-    if (data.erro) {
-      alert(data.erro);
-    } else {
-      alert(data.sucesso);
-      document.getElementById("avatar").src = "avatar/" + data.avatar;
-    }
-  } catch (err) {
-    alert("Erro ao enviar avatar");
+  const data = await res.json();
+  if (data.erro) {
+    alert(data.erro);
+  } else {
+    alert(data.sucesso);
+    carregarPosts();
   }
-}
-
-async function logout() {
-  await fetch("/logout");
-  window.location.href = "login.html";
 }
 
 async function carregarPosts() {
@@ -59,24 +50,10 @@ async function carregarPosts() {
       <small>Autor: ${post.autor}</small><br>
       <button onclick="curtirPost(${post.id})">Curtir</button>
       <span id="curtidas-${post.id}">${post.curtidas}</span>
+      <button class="excluir" onclick="excluirPost(${post.id})">Excluir</button>
     `;
     container.appendChild(div);
   });
-}
-
-async function criarPost() {
-  const titulo = document.getElementById("titulo").value;
-  const mensagem = document.getElementById("mensagem").value;
-
-  const res = await fetch("/criar-post", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ titulo, mensagem })
-  });
-
-  const msg = await res.text();
-  alert(msg);
-  carregarPosts();
 }
 
 async function curtirPost(id) {
@@ -85,6 +62,26 @@ async function curtirPost(id) {
   document.getElementById(`curtidas-${id}`).innerText = data.curtidas;
 }
 
+async function excluirPost(id) {
+  const res = await fetch(`/excluir/${id}`, { method: "DELETE" });
+  const data = await res.json();
+
+  if (data.erro) {
+    alert(data.erro);
+  } else {
+    alert(data.sucesso);
+    carregarPosts(); // recarrega lista sem o post excluído
+  }
+}
+
+async function logout() {
+  const res = await fetch("/logout");
+  const data = await res.json();
+  alert(data.sucesso);
+  window.location.href = "login.html";
+}
+
 carregarUsuario();
 carregarPosts();
+
 

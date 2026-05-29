@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fórum dos Fãs</title>
   <link rel="stylesheet" href="forum.css">
 </head>
@@ -16,12 +15,9 @@
 
   <!-- PERFIL -->
   <div class="painel-usuario">
-    <!-- caminho corrigido: pasta é "avatar" -->
     <img id="avatar" src="avatar/default.png" class="avatar">
     <div class="usuario-info">
       <span id="email-usuario">Não logado</span>
-      <input type="file" id="avatarInput">
-      <button onclick="uploadAvatar()">Alterar Avatar</button>
       <button onclick="logout()">Logout</button>
     </div>
   </div>
@@ -29,13 +25,26 @@
   <!-- ADMIN -->
   <div id="painel-admin" class="painel-admin" style="display:none;">
     <h2>Painel Administrativo</h2>
-    <p>Você possui acesso administrativo.</p>
     <button onclick="carregarPosts()">Atualizar Posts</button>
   </div>
 
   <!-- POSTS -->
   <main class="forum-container">
-    <div id="posts"></div>
+    <div id="posts">
+      <!-- Exemplo de post -->
+      <div class="post">
+        <h2>Título do post</h2>
+        <p>Conteúdo do post...</p>
+        <span>Autor: Admin@gmail.com</span>
+
+        <div class="likes">
+          <button class="curtir">Curtir</button>
+          <span>7</span>
+          <!-- Botão excluir -->
+          <button class="excluir" onclick="excluirPost(this)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- CRIAR POST -->
@@ -45,60 +54,6 @@
     <button onclick="criarPost()">Postar</button>
   </div>
 
-  <script>
-    async function carregarUsuario() {
-      try {
-        const res = await fetch("/usuario");
-        const usuario = await res.json();
-
-        if (usuario) {
-          document.getElementById("email-usuario").textContent = usuario.email;
-          document.getElementById("avatar").src = "avatar/" + usuario.avatar;
-
-          if (usuario.role === "admin") {
-            document.getElementById("painel-admin").style.display = "block";
-          }
-        }
-      } catch (err) {
-        console.error("Erro ao carregar usuário:", err);
-      }
-    }
-
-    async function uploadAvatar() {
-      const fileInput = document.getElementById("avatarInput");
-      if (!fileInput.files.length) {
-        alert("Selecione um arquivo primeiro");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("avatar", fileInput.files[0]);
-
-      try {
-        const res = await fetch("/upload-avatar", {
-          method: "POST",
-          body: formData
-        });
-
-        const data = await res.json();
-        if (data.erro) {
-          alert(data.erro);
-        } else {
-          alert(data.sucesso);
-          document.getElementById("avatar").src = "avatar/" + data.avatar;
-        }
-      } catch (err) {
-        alert("Erro ao enviar avatar");
-      }
-    }
-
-    async function logout() {
-      await fetch("/logout");
-      window.location.href = "login.html";
-    }
-
-    carregarUsuario();
-  </script>
+  <script src="forum.js"></script>
 </body>
 </html>
-
