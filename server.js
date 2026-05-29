@@ -40,9 +40,12 @@ app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
   const avatar = req.file.filename;
   db.run("UPDATE usuarios SET avatar = ? WHERE id = ?", [avatar, req.session.usuario.id], () => {
     req.session.usuario.avatar = avatar;
+    // ✅ retorna também o nome do arquivo para o frontend atualizar
     res.json({ sucesso: "Avatar atualizado", avatar });
   });
 });
+
+
 
 
 /* =========================
