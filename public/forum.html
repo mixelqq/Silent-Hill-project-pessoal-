@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="forum.css">
 </head>
 <body>
+
   <a href="index.html" class="voltar-btn">⬅ Voltar para a Wiki</a>
 
   <header>
@@ -15,45 +16,114 @@
 
   <!-- PERFIL -->
   <div class="painel-usuario">
-    <img id="avatar" src="avatar/default.png" class="avatar">
+
+    <img
+      id="avatar"
+      src="/uploads/default.png"
+      class="avatar"
+    >
+
     <div class="usuario-info">
-      <span id="email-usuario">Não logado</span>
-      <button onclick="logout()">Logout</button>
+
+      <span id="email-usuario">
+        Não logado
+      </span>
+
+      <label class="btn-avatar">
+        Alterar Foto
+
+        <input
+          type="file"
+          id="trocarAvatar"
+          accept="image/*"
+          hidden
+        >
+      </label>
+
+      <button onclick="logout()">
+        Logout
+      </button>
+
     </div>
+
   </div>
 
   <!-- ADMIN -->
-  <div id="painel-admin" class="painel-admin" style="display:none;">
+  <div
+    id="painel-admin"
+    class="painel-admin"
+    style="display:none;"
+  >
+
     <h2>Painel Administrativo</h2>
-    <button onclick="carregarPosts()">Atualizar Posts</button>
+
+    <button onclick="carregarPosts()">
+      Atualizar Posts
+    </button>
+
   </div>
 
   <!-- POSTS -->
   <main class="forum-container">
+
     <div id="posts">
-      <!-- Exemplo de post -->
+
       <div class="post">
+
         <h2>Título do post</h2>
-        <p>Conteúdo do post...</p>
-        <span>Autor: Admin@gmail.com</span>
+
+        <p>
+          Conteúdo do post...
+        </p>
+
+        <span>
+          Autor: Admin@gmail.com
+        </span>
 
         <div class="likes">
-          <button class="curtir">Curtir</button>
+
+          <button class="curtir">
+            Curtir
+          </button>
+
           <span>7</span>
-          <!-- Botão excluir -->
-          <button class="excluir" onclick="excluirPost(this)">Excluir</button>
+
+          <button
+            class="excluir"
+            onclick="excluirPost(this)"
+          >
+            Excluir
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   </main>
 
   <!-- CRIAR POST -->
   <div class="criar-post">
-    <input type="text" id="titulo" placeholder="Título do post">
-    <textarea id="mensagem" placeholder="Compartilhe seu pesadelo..."></textarea>
-    <button onclick="criarPost()">Postar</button>
+
+    <input
+      type="text"
+      id="titulo"
+      placeholder="Título do post"
+    >
+
+    <textarea
+      id="mensagem"
+      placeholder="Compartilhe seu pesadelo..."
+    ></textarea>
+
+    <button onclick="criarPost()">
+      Postar
+    </button>
+
   </div>
 
   <script src="forum.js"></script>
+
 </body>
 </html>
