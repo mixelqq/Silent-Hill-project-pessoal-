@@ -8,19 +8,34 @@ const path = require("path");
 const app = express();
 const db = new sqlite3.Database("./database.db");
 
-/* UPLOAD DE AVATAR */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/uploads");
-  },
+/* =========================
+   BANCO (corrigido)
+========================= */
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS usuarios (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT,
+      email TEXT UNIQUE,
+      senha TEXT,
+      avatar TEXT
+    )
+  `);
 
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
+  db.run(`
+    CREATE TABLE IF NOT EXISTS posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      titulo TEXT,
+      mensagem TEXT,
+      autor TEXT,
+      curtidas INTEGER DEFAULT 0
+    )
+  `);
 });
 
-const upload = multer({ storage });
-
+/* =========================
+   MIDDLEWARES
+========================= */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -32,6 +47,20 @@ app.use(
     saveUninitialized: true
   })
 );
+
+/* =========================
+   UPLOAD DE AVATAR
+========================= */
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
 
 /* =========================
    CADASTRO
@@ -68,17 +97,12 @@ app.post("/login", (req, res) => {
     "SELECT * FROM usuarios WHERE email = ?",
     [email],
     (err, usuario) => {
-      if (
-        usuario &&
-        bcrypt.compareSync(senha, usuario.senha)
-      ) {
+      if (usuario && bcrypt.compareSync(senha, usuario.senha)) {
         req.session.usuario = usuario;
 
         res.json({ sucesso: true });
       } else {
-        res.json({
-          erro: "Email ou senha inválidos"
-        });
+        res.json({ erro: "Email ou senha inválidos" });
       }
     }
   );
@@ -89,10 +113,7 @@ app.post("/login", (req, res) => {
 ========================= */
 app.get("/logout", (req, res) => {
   req.session.destroy();
-
-  res.json({
-    sucesso: "Logout realizado"
-  });
+  res.json({ sucesso: "Logout realizado" });
 });
 
 /* =========================
@@ -103,19 +124,15 @@ app.get("/usuario", (req, res) => {
 });
 
 /* =========================
-   AVATAR
+   AVATAR (CORRIGIDO)
 ========================= */
 app.post("/avatar", upload.single("avatar"), (req, res) => {
   if (!req.session.usuario) {
-    return res.json({
-      erro: "Faça login primeiro"
-    });
+    return res.json({ erro: "Faça login primeiro" });
   }
 
   if (!req.file) {
-    return res.json({
-      erro: "Nenhuma imagem enviada"
-    });
+    return res.json({ erro: "Nenhuma imagem enviada" });
   }
 
   const avatar = req.file.filename;
@@ -130,9 +147,7 @@ app.post("/avatar", upload.single("avatar"), (req, res) => {
     (err) => {
       if (err) {
         console.log(err);
-        return res.json({
-          erro: "Erro ao salvar avatar"
-        });
+        return res.json({ erro: "Erro ao salvar avatar" });
       }
 
       req.session.usuario.avatar = avatar;
@@ -150,9 +165,7 @@ app.post("/avatar", upload.single("avatar"), (req, res) => {
 ========================= */
 app.post("/criar-post", (req, res) => {
   if (!req.session.usuario) {
-    return res.json({
-      erro: "Faça login primeiro"
-    });
+    return res.json({ erro: "Faça login primeiro" });
   }
 
   const { titulo, mensagem } = req.body;
@@ -162,15 +175,9 @@ app.post("/criar-post", (req, res) => {
     INSERT INTO posts (titulo, mensagem, autor, curtidas)
     VALUES (?, ?, ?, 0)
     `,
-    [
-      titulo,
-      mensagem,
-      req.session.usuario.nome
-    ],
+    [titulo, mensagem, req.session.usuario.nome],
     () => {
-      res.json({
-        sucesso: "Post criado com sucesso"
-      });
+      res.json({ sucesso: "Post criado com sucesso" });
     }
   );
 });
@@ -206,9 +213,7 @@ app.post("/curtir/:id", (req, res) => {
         `,
         [id],
         (err, row) => {
-          res.json({
-            curtidas: row.curtidas
-          });
+          res.json({ curtidas: row.curtidas });
         }
       );
     }
@@ -220,25 +225,17 @@ app.post("/curtir/:id", (req, res) => {
 ========================= */
 app.delete("/excluir/:id", (req, res) => {
   if (!req.session.usuario) {
-    return res.json({
-      erro: "Faça login primeiro"
-    });
+    return res.json({ erro: "Faça login primeiro" });
   }
 
   const id = req.params.id;
 
   db.get(
-    `
-    SELECT *
-    FROM posts
-    WHERE id = ?
-    `,
+    `SELECT * FROM posts WHERE id = ?`,
     [id],
     (err, post) => {
       if (!post) {
-        return res.json({
-          erro: "Post não encontrado"
-        });
+        return res.json({ erro: "Post não encontrado" });
       }
 
       if (
@@ -251,21 +248,14 @@ app.delete("/excluir/:id", (req, res) => {
       }
 
       db.run(
-        `
-        DELETE FROM posts
-        WHERE id = ?
-        `,
+        `DELETE FROM posts WHERE id = ?`,
         [id],
         (err) => {
           if (err) {
-            return res.json({
-              erro: "Erro ao excluir post"
-            });
+            return res.json({ erro: "Erro ao excluir post" });
           }
 
-          res.json({
-            sucesso: "Post excluído com sucesso!"
-          });
+          res.json({ sucesso: "Post excluído com sucesso!" });
         }
       );
     }
