@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Fórum dos Fãs</title>
   <link rel="stylesheet" href="forum.css">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
+/>
 </head>
 <body>
 
@@ -103,7 +107,7 @@
 
   </main>
 
-  <!-- CRIAR POST -->
+    <!-- CRIAR POST -->
   <div class="criar-post">
 
     <input
@@ -121,8 +125,45 @@
       Postar
     </button>
 
+  </div> <!-- FECHA criar-post -->
+
+  <!-- MODAL CORTAR FOTO -->
+
+  <div
+    id="cropperModal"
+    class="cropper-modal"
+    style="display:none;"
+  >
+
+    <div class="cropper-box">
+
+      <h2>Ajustar Foto</h2>
+
+      <img
+        id="cropperImage"
+        style="
+          max-width:100%;
+          display:block;
+        "
+      >
+
+      <div class="cropper-buttons">
+
+        <button id="salvarCrop">
+          Salvar
+        </button>
+
+        <button id="cancelarCrop">
+          Cancelar
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
   <script src="forum.js"></script>
 
 </body>

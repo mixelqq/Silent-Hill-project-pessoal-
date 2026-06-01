@@ -1,3 +1,8 @@
+let cropper = null;
+
+let imagemSelecionada = null;
+
+
 async function carregarUsuario() {
 
   const res =
@@ -212,72 +217,196 @@ document
 .getElementById("trocarAvatar")
 .addEventListener(
   "change",
-  async function () {
+  function () {
 
-    const arquivo = this.files[0];
-
-    console.log("Arquivo selecionado:", arquivo);
+    const arquivo =
+      this.files[0];
 
     if (!arquivo) return;
 
-    const formData = new FormData();
+    imagemSelecionada =
+      arquivo;
 
-    formData.append(
-      "avatar",
-      arquivo
-    );
+    const reader =
+      new FileReader();
 
-    try {
-
-      const resposta =
-        await fetch(
-          "/avatar",
-          {
-            method: "POST",
-            body: formData
-          }
-        );
-
-      console.log(
-        "Status:",
-        resposta.status
-      );
-
-      const dados =
-        await resposta.json();
-
-      console.log(
-        "Resposta:",
-        dados
-      );
-
-      if (dados.sucesso) {
+    reader.onload =
+      function(e) {
 
         document
-        .getElementById("avatar")
-        .src =
-        "/uploads/" +
-        dados.avatar +
-        "?" +
-        Date.now();
+        .getElementById(
+          "cropperModal"
+        )
+        .style.display =
+        "flex";
 
-      } else {
+        const img =
+          document.getElementById(
+            "cropperImage"
+          );
 
-        alert(
-          dados.erro
-        );
-      }
+        img.src =
+          e.target.result;
 
-    } catch (erro) {
+        img.onload = () => {
 
-      console.log(erro);
+          if (cropper) {
 
-      alert(
-        "Erro ao enviar imagem"
-      );
-    }
+            cropper.destroy();
+          }
+
+          cropper =
+            new Cropper(
+              img,
+              {
+                aspectRatio: 1,
+                viewMode: 1,
+                dragMode: "move",
+                autoCropArea: 1,
+                responsive: true
+              }
+            );
+        };
+      };
+
+    reader.readAsDataURL(
+      arquivo
+    );
   }
 );
 
 carregarUsuario();
 carregarPosts();
+
+
+document
+.getElementById(
+  "cancelarCrop"
+)
+.addEventListener(
+  "click",
+  () => {
+
+    document
+    .getElementById(
+      "cropperModal"
+    )
+    .style.display =
+    "none";
+
+    if (cropper) {
+
+      cropper.destroy();
+
+      cropper = null;
+    }
+
+    document
+    .getElementById(
+      "trocarAvatar"
+    )
+    .value = "";
+  }
+);
+
+document
+.getElementById(
+  "salvarCrop"
+)
+.addEventListener(
+  "click",
+  async () => {
+
+    if (!cropper) {
+
+      alert(
+        "Cropper não carregado."
+      );
+
+      return;
+    }
+
+    const canvas =
+      cropper.getCroppedCanvas({
+        width: 300,
+        height: 300
+      });
+
+    canvas.toBlob(
+      async (blob) => {
+
+        try {
+
+          const formData =
+            new FormData();
+
+          formData.append(
+            "avatar",
+            blob,
+            "avatar.png"
+          );
+
+          const resposta =
+            await fetch(
+              "/avatar",
+              {
+                method: "POST",
+                body: formData
+              }
+            );
+
+          const dados =
+            await resposta.json();
+
+          if (dados.sucesso) {
+
+            document
+            .getElementById(
+              "avatar"
+            )
+            .src =
+            "/uploads/" +
+            dados.avatar +
+            "?" +
+            Date.now();
+
+          } else {
+
+            alert(
+              dados.erro
+            );
+          }
+
+        } catch (erro) {
+
+          console.log(erro);
+
+          alert(
+            "Erro ao enviar imagem"
+          );
+        }
+
+        document
+        .getElementById(
+          "cropperModal"
+        )
+        .style.display =
+        "none";
+
+        if (cropper) {
+
+          cropper.destroy();
+
+          cropper = null;
+        }
+
+        document
+        .getElementById(
+          "trocarAvatar"
+        )
+        .value = "";
+      },
+      "image/png"
+    );
+  }
+);

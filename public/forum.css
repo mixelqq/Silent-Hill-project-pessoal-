@@ -443,3 +443,148 @@ button.excluir:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px rgba(255,0,0,0.4);
 }
+
+.usuario-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    width: 220px;
+}
+
+.btn-avatar,
+.usuario-info button {
+
+    width: 100%;
+
+    text-align: center;
+}
+
+/* BOTÃO ALTERAR FOTO */
+
+.btn-avatar {
+
+    display: inline-block;
+
+    background:
+    linear-gradient(
+        to bottom,
+        #2a2a2a,
+        #111
+    );
+
+    color: #d6d6d6;
+
+    border: 1px solid #555;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+
+    font-family: serif;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    transition: 0.3s;
+
+    border-radius: 4px;
+
+    box-shadow:
+    0 0 10px rgba(0,0,0,0.5);
+
+    text-align: center;
+}
+
+.btn-avatar:hover {
+
+    background:
+    linear-gradient(
+        to bottom,
+        #550000,
+        #220000
+    );
+
+    color: white;
+
+    border-color: #aa0000;
+
+    transform: scale(1.03);
+
+    box-shadow:
+    0 0 15px rgba(255,0,0,0.3);
+}
+
+.btn-avatar:active {
+
+    transform: scale(0.98);
+}
+
+
+/* ===== CROPPER ===== */
+
+.cropper-modal {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.9);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.cropper-box {
+
+    width: 600px;
+
+    max-width: 95%;
+
+    background:
+    linear-gradient(
+        to bottom,
+        #151515,
+        #090909
+    );
+
+    border: 1px solid #444;
+
+    padding: 20px;
+
+    border-radius: 10px;
+}
+
+.cropper-box h2 {
+
+    text-align: center;
+
+    margin-bottom: 15px;
+}
+
+.cropper-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+.cropper-buttons {
+    position: relative;
+    z-index: 10000;
+}
