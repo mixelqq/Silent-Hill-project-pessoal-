@@ -9,22 +9,52 @@
 
 
 <form id="cadastroForm">
-  <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-  <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-  <button type="submit">Cadastrar</button>
-</form>
 
+  <input
+    type="text"
+    id="nome"
+    name="nome"
+    placeholder="Digite seu nome de usuário"
+    required
+  >
+
+  <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Digite seu e-mail"
+    required
+  >
+
+  <input
+    type="password"
+    id="senha"
+    name="senha"
+    placeholder="Digite sua senha"
+    required
+  >
+
+  <button type="submit">
+    Cadastrar
+  </button>
+
+</form>
 <script>
   document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
     const res = await fetch("/cadastro", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha })
+      body: JSON.stringify({
+        nome,
+        email,
+        senha
+      })
     });
 
     const msg = await res.text();

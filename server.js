@@ -9,219 +9,195 @@ const app = express();
 const db = new sqlite3.Database("./database.db");
 
 /* UPLOAD DE AVATAR */
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/uploads");
   },
 
   filename: (req, file, cb) => {
-    cb(
-      null,
-      Date.now() +
-      path.extname(file.originalname)
-    );
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
-const upload = multer({
-  storage
-});
+const upload = multer({ storage });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(session({
-  secret: "silent-hill",
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(
+  session({
+    secret: "silent-hill",
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
-// LOGIN
+/* =========================
+   CADASTRO
+========================= */
+app.post("/cadastro", (req, res) => {
+  const { nome, email, senha } = req.body;
+
+  const hash = bcrypt.hashSync(senha, 10);
+
+  db.run(
+    `
+    INSERT INTO usuarios (nome, email, senha)
+    VALUES (?, ?, ?)
+    `,
+    [nome, email, hash],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Erro ao cadastrar");
+      }
+
+      res.send("Cadastro realizado");
+    }
+  );
+});
+
+/* =========================
+   LOGIN
+========================= */
 app.post("/login", (req, res) => {
-
   const { email, senha } = req.body;
 
   db.get(
     "SELECT * FROM usuarios WHERE email = ?",
     [email],
     (err, usuario) => {
-
       if (
         usuario &&
-        bcrypt.compareSync(
-          senha,
-          usuario.senha
-        )
+        bcrypt.compareSync(senha, usuario.senha)
       ) {
-
         req.session.usuario = usuario;
 
-        res.json({
-          sucesso: true
-        });
-
+        res.json({ sucesso: true });
       } else {
-
         res.json({
-          erro:
-          "Email ou senha inválidos"
+          erro: "Email ou senha inválidos"
         });
       }
     }
   );
 });
 
-// LOGOUT
+/* =========================
+   LOGOUT
+========================= */
 app.get("/logout", (req, res) => {
-
   req.session.destroy();
 
   res.json({
-    sucesso:
-    "Logout realizado"
+    sucesso: "Logout realizado"
   });
 });
 
-// USUÁRIO
+/* =========================
+   USUÁRIO LOGADO
+========================= */
 app.get("/usuario", (req, res) => {
-
-  res.json(
-    req.session.usuario || null
-  );
+  res.json(req.session.usuario || null);
 });
 
-// ALTERAR FOTO DE PERFIL
-app.post(
-  "/avatar",
-  upload.single("avatar"),
-  (req, res) => {
-
-    if (!req.session.usuario) {
-
-      return res.json({
-        erro:
-        "Faça login primeiro"
-      });
-    }
-
-    if (!req.file) {
-
-      return res.json({
-        erro:
-        "Nenhuma imagem enviada"
-      });
-    }
-
-    const avatar =
-      req.file.filename;
-
-    db.run(
-      `
-      UPDATE usuarios
-      SET avatar = ?
-      WHERE id = ?
-      `,
-      [
-        avatar,
-        req.session.usuario.id
-      ],
-      (err) => {
-
-        if (err) {
-
-          console.log(err);
-
-          return res.json({
-            erro:
-            "Erro ao salvar avatar"
-          });
-        }
-
-        req.session.usuario.avatar =
-          avatar;
-
-        res.json({
-          sucesso: true,
-          avatar
-        });
-      }
-    );
-  }
-);
-
-// CRIAR POST
-app.post("/criar-post", (req, res) => {
-
+/* =========================
+   AVATAR
+========================= */
+app.post("/avatar", upload.single("avatar"), (req, res) => {
   if (!req.session.usuario) {
-
     return res.json({
-      erro:
-      "Faça login primeiro"
+      erro: "Faça login primeiro"
     });
   }
 
-  const {
-    titulo,
-    mensagem
-  } = req.body;
+  if (!req.file) {
+    return res.json({
+      erro: "Nenhuma imagem enviada"
+    });
+  }
+
+  const avatar = req.file.filename;
 
   db.run(
     `
-    INSERT INTO posts
-    (
-      titulo,
-      mensagem,
-      autor,
-      curtidas
-    )
-    VALUES
-    (?, ?, ?, 0)
+    UPDATE usuarios
+    SET avatar = ?
+    WHERE id = ?
+    `,
+    [avatar, req.session.usuario.id],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.json({
+          erro: "Erro ao salvar avatar"
+        });
+      }
+
+      req.session.usuario.avatar = avatar;
+
+      res.json({
+        sucesso: true,
+        avatar
+      });
+    }
+  );
+});
+
+/* =========================
+   CRIAR POST
+========================= */
+app.post("/criar-post", (req, res) => {
+  if (!req.session.usuario) {
+    return res.json({
+      erro: "Faça login primeiro"
+    });
+  }
+
+  const { titulo, mensagem } = req.body;
+
+  db.run(
+    `
+    INSERT INTO posts (titulo, mensagem, autor, curtidas)
+    VALUES (?, ?, ?, 0)
     `,
     [
       titulo,
       mensagem,
-      req.session.usuario.email
+      req.session.usuario.nome
     ],
     () => {
-
       res.json({
-        sucesso:
-        "Post criado com sucesso"
+        sucesso: "Post criado com sucesso"
       });
     }
   );
 });
 
-// LISTAR POSTS
+/* =========================
+   LISTAR POSTS
+========================= */
 app.get("/posts", (req, res) => {
-
-  db.all(
-    "SELECT * FROM posts",
-    (err, rows) => {
-
-      res.json(rows);
-    }
-  );
+  db.all("SELECT * FROM posts", (err, rows) => {
+    res.json(rows);
+  });
 });
 
-// CURTIR POST
+/* =========================
+   CURTIR POST
+========================= */
 app.post("/curtir/:id", (req, res) => {
-
-  const id =
-    req.params.id;
+  const id = req.params.id;
 
   db.run(
     `
     UPDATE posts
-    SET curtidas =
-    curtidas + 1
+    SET curtidas = curtidas + 1
     WHERE id = ?
     `,
     [id],
     () => {
-
       db.get(
         `
         SELECT curtidas
@@ -230,10 +206,8 @@ app.post("/curtir/:id", (req, res) => {
         `,
         [id],
         (err, row) => {
-
           res.json({
-            curtidas:
-            row.curtidas
+            curtidas: row.curtidas
           });
         }
       );
@@ -241,19 +215,17 @@ app.post("/curtir/:id", (req, res) => {
   );
 });
 
-// EXCLUIR POST
+/* =========================
+   EXCLUIR POST
+========================= */
 app.delete("/excluir/:id", (req, res) => {
-
   if (!req.session.usuario) {
-
     return res.json({
-      erro:
-      "Faça login primeiro"
+      erro: "Faça login primeiro"
     });
   }
 
-  const id =
-    req.params.id;
+  const id = req.params.id;
 
   db.get(
     `
@@ -263,25 +235,18 @@ app.delete("/excluir/:id", (req, res) => {
     `,
     [id],
     (err, post) => {
-
       if (!post) {
-
         return res.json({
-          erro:
-          "Post não encontrado"
+          erro: "Post não encontrado"
         });
       }
 
       if (
-        post.autor !==
-        req.session.usuario.email &&
-        req.session.usuario.role !==
-        "admin"
+        post.autor !== req.session.usuario.nome &&
+        req.session.usuario.role !== "admin"
       ) {
-
         return res.json({
-          erro:
-          "Você não tem permissão para excluir este post"
+          erro: "Você não tem permissão para excluir este post"
         });
       }
 
@@ -292,18 +257,14 @@ app.delete("/excluir/:id", (req, res) => {
         `,
         [id],
         (err) => {
-
           if (err) {
-
             return res.json({
-              erro:
-              "Erro ao excluir post"
+              erro: "Erro ao excluir post"
             });
           }
 
           res.json({
-            sucesso:
-            "Post excluído com sucesso!"
+            sucesso: "Post excluído com sucesso!"
           });
         }
       );
@@ -311,9 +272,9 @@ app.delete("/excluir/:id", (req, res) => {
   );
 });
 
-app.listen(
-  3000,
-  () => console.log(
-    "Servidor rodando em http://localhost:3000"
-  )
-);
+/* =========================
+   SERVER
+========================= */
+app.listen(3000, () => {
+  console.log("Servidor rodando em http://localhost:3000");
+});
