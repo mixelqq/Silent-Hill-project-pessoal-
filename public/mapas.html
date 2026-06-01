@@ -1,111 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Mapas - Silent Hill</title>
-
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapas - Silent Hill</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <!-- botão voltar -->
-<a href="index.html" class="btn-voltar">
-← Voltar para página principal
-</a>
+<a href="index.html" class="btn-voltar">← Voltar para página principal</a>
 
 <header>
-
-<h1>Mapas de Silent Hill</h1>
-
-<p>
-Explore os locais amaldiçoados da franquia...
-</p>
-
+  <h1>Mapas de Silent Hill</h1>
+  <p>Explore os locais amaldiçoados da franquia...</p>
 </header>
 
 <main class="mapas-container">
+  <!-- SH1 -->
+  <article>
+    <h2>Silent Hill 1</h2>
+    <img src="./img/Map_of_Old_Silent_Hill.webp" alt="Mapa Silent Hill 1">
+    <p>Mapa clássico da cidade coberta por neblina.</p>
+  </article>
 
-<!-- SH1 -->
-<article>
+  <!-- SH2 -->
+  <article>
+    <h2>Silent Hill 2</h2>
+    <img src="./img/Hotel_3rd_Floor.webp" alt="Mapa Silent Hill 2">
+    <p>Lakeview Hotel</p>
+  </article>
 
-<h2>Silent Hill 1</h2>
+  <!-- SH3 -->
+  <article>
+    <h2>Silent Hill 3</h2>
+    <img src="./img/CentralSquareMap1F.webp" alt="Mapa Silent Hill 3">
+    <p>Mapa do Shopping</p>
+  </article>
 
-<img src="./img/Map_of_Old_Silent_Hill.webp" alt="Mapa Silent Hill 1" onclick="abrirMapa(this)">
+  <!-- SH4 -->
+  <article>
+    <h2>Silent Hill 4</h2>
+    <img src="./img/silent hill 4 mapa.jpg" alt="Mapa Silent Hill 4">
+    <p>Apartamentos e mundos alternativos perturbadores.</p>
+  </article>
 
-<p>
-Mapa clássico da cidade coberta por neblina.
-</p>
-
-</article>
-
-<!-- SH2 -->
-<article>
-
-<h2>Silent Hill 2</h2>
-
-<img src="./img/Hotel_3rd_Floor.webp" alt="Mapa Silent Hill 2" onclick="abrirMapa(this)">
-
-<p>
- Lakeview Hotel 
-</p>
-
-</article>
-
-<!-- SH3 -->
-<article>
-
-<h2>Silent Hill 3</h2>
-
-<img src="./img/CentralSquareMap1F.webp" alt="Mapa Silent Hill 3" onclick="abrirMapa(this)">
-
-<p>
-Mapa do Shoping
-</p>
-
-</article>
-
-<!-- SH4 -->
-<article>
-
-<h2>Silent Hill 4</h2>
-
-<img src="./img/silent hill 4 mapa.jpg" alt="Mapa Silent Hill 4"onclick="abrirMapa(this)">
-
-<p>
-Apartamentos e mundos alternativos perturbadores.
-</p>
-
-</article>
-
-<!-- Silent Hill f -->
-<article>
-
-<h2>Silent Hill f</h2>
-
-<img src="./img/1579424.webp" alt="Mapa Silent Hill f"
-onclick="abrirMapa(this)">
-
-<p>
-Novo cenário japonês da franquia.
-</p>
-
-</article>
-
+  <!-- Silent Hill f -->
+  <article>
+    <h2>Silent Hill f</h2>
+    <img src="./img/1579424.webp" alt="Mapa Silent Hill f">
+    <p>Novo cenário japonês da franquia.</p>
+  </article>
 </main>
 
-<script src="script.js"></script>
-<!-- Zoom do mapa -->
-
-<div id="zoomMapa" class="zoom-mapa" onclick="fecharMapa()">
-
-<img id="imgZoom">
-
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <span class="fechar">&times;</span>
+  <img class="lightbox-img" id="lightboxImg">
+  <p id="lightboxLegenda"></p>
 </div>
+
+<script>
+  const imagens = document.querySelectorAll("article img"); // pega todas as imagens dos cards
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const legenda = document.getElementById("lightboxLegenda");
+  const fechar = document.querySelector(".fechar");
+
+  imagens.forEach(img => {
+    img.addEventListener("click", () => {
+      lightbox.style.display = "flex";
+      lightboxImg.src = img.src;
+      legenda.textContent = img.alt;
+    });
+  });
+
+  fechar.addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  // Fecha clicando fora da imagem
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = "none";
+    }
+  });
+</script>
 
 </body>
 </html>

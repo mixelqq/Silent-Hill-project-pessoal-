@@ -46,12 +46,12 @@
         const data = await res.json();
 
         if (data.erro) {
-          alert(data.erro); // mostra mensagem de erro
+          alert(data.erro);
         } else if (data.sucesso) {
           if (data.sucesso === true) {
-            window.location.href = "index.html"; // redireciona para home
+            window.location.href = "forum.html";
           } else {
-            alert(data.sucesso); // caso venha uma string
+            alert(data.sucesso);
           }
         }
       } catch (err) {
@@ -61,4 +61,5 @@
   </script>
 </body>
 </html>
+
 

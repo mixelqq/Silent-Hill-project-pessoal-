@@ -1,180 +1,280 @@
 const express = require("express");
 const session = require("express-session");
 const sqlite3 = require("sqlite3").verbose();
+const bcrypt = require("bcrypt");
 const multer = require("multer");
 const path = require("path");
-const bcrypt = require("bcrypt");
 
 const app = express();
 const db = new sqlite3.Database("./database.db");
 
-/* =========================
-CONFIG
-========================= */
+/* UPLOAD DE AVATAR */
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/uploads");
+  },
+
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.use(session({
+app.use(
+  session({
     secret: "silent-hill",
     resave: false,
     saveUninitialized: true
-}));
+  })
+);
 
 /* =========================
-UPLOAD AVATAR
+   CADASTRO
 ========================= */
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    // usa caminho absoluto para evitar erro ENOENT
-    cb(null, path.join(__dirname, "public", "avatar"));
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage: storage });
+app.post("/cadastro", (req, res) => {
+  const { nome, email, senha } = req.body;
 
-app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
-  if (!req.session.usuario) return res.json({ erro: "Faça login" });
-  const avatar = req.file.filename;
-  db.run("UPDATE usuarios SET avatar = ? WHERE id = ?", [avatar, req.session.usuario.id], () => {
-    req.session.usuario.avatar = avatar;
-    res.json({ sucesso: "Avatar atualizado", avatar });
+  const hash = bcrypt.hashSync(senha, 10);
+
+  db.run(
+    `
+    INSERT INTO usuarios (nome, email, senha)
+    VALUES (?, ?, ?)
+    `,
+    [nome, email, hash],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.send("Erro ao cadastrar");
+      }
+
+      res.send("Cadastro realizado");
+    }
+  );
+});
+
+/* =========================
+   LOGIN
+========================= */
+app.post("/login", (req, res) => {
+  const { email, senha } = req.body;
+
+  db.get(
+    "SELECT * FROM usuarios WHERE email = ?",
+    [email],
+    (err, usuario) => {
+      if (
+        usuario &&
+        bcrypt.compareSync(senha, usuario.senha)
+      ) {
+        req.session.usuario = usuario;
+
+        res.json({ sucesso: true });
+      } else {
+        res.json({
+          erro: "Email ou senha inválidos"
+        });
+      }
+    }
+  );
+});
+
+/* =========================
+   LOGOUT
+========================= */
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+
+  res.json({
+    sucesso: "Logout realizado"
   });
 });
 
-
 /* =========================
-TABELAS
-========================= */
-db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT,email TEXT UNIQUE,senha TEXT,role TEXT DEFAULT 'user',avatar TEXT DEFAULT 'default.png',banido INTEGER DEFAULT 0)");
-    db.run("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT,titulo TEXT,mensagem TEXT,autor TEXT,curtidas INTEGER DEFAULT 0,fixado INTEGER DEFAULT 0)");
-    db.run("CREATE TABLE IF NOT EXISTS comentarios (id INTEGER PRIMARY KEY AUTOINCREMENT,post_id INTEGER,autor TEXT,comentario TEXT)");
-});
-
-/* =========================
-CADASTRO
-========================= */
-app.post("/cadastro", (req, res) => {
-    const { email, senha } = req.body;
-    const hash = bcrypt.hashSync(senha, 10);
-    db.run("INSERT INTO usuarios (email, senha) VALUES (?, ?)", [email, hash], function(err) {
-        if (err) return res.json({ erro: "Usuário já existe" });
-        res.json({ sucesso: "Cadastro realizado" });
-    });
-});
-
-/* =========================
-LOGIN
-========================= */
-app.post("/login", (req, res) => {
-    const { email, senha } = req.body;
-    db.get("SELECT * FROM usuarios WHERE email = ?", [email], (err, usuario) => {
-        if (err) return res.status(500).json({ erro: "Problema no servidor" });
-        if (!usuario) return res.json({ erro: "Usuário não encontrado" });
-        if (usuario.banido === 1) return res.json({ erro: "Você foi banido" });
-
-        bcrypt.compare(senha, usuario.senha, (err, ok) => {
-            if (!ok) return res.json({ erro: "Senha incorreta" });
-            req.session.usuario = usuario;
-            res.json({ sucesso: true });
-        });
-    });
-});
-
-/* =========================
-USUARIO
+   USUÁRIO LOGADO
 ========================= */
 app.get("/usuario", (req, res) => {
-    if (!req.session.usuario) return res.json(null);
-    res.json(req.session.usuario);
+  res.json(req.session.usuario || null);
 });
 
 /* =========================
-LOGOUT
+   AVATAR
 ========================= */
-app.get("/logout", (req, res) => {
-    req.session.destroy(() => res.json({ sucesso: "Logout realizado" }));
+app.post("/avatar", upload.single("avatar"), (req, res) => {
+  if (!req.session.usuario) {
+    return res.json({
+      erro: "Faça login primeiro"
+    });
+  }
+
+  if (!req.file) {
+    return res.json({
+      erro: "Nenhuma imagem enviada"
+    });
+  }
+
+  const avatar = req.file.filename;
+
+  db.run(
+    `
+    UPDATE usuarios
+    SET avatar = ?
+    WHERE id = ?
+    `,
+    [avatar, req.session.usuario.id],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.json({
+          erro: "Erro ao salvar avatar"
+        });
+      }
+
+      req.session.usuario.avatar = avatar;
+
+      res.json({
+        sucesso: true,
+        avatar
+      });
+    }
+  );
 });
 
 /* =========================
-POSTS
+   CRIAR POST
+========================= */
+app.post("/criar-post", (req, res) => {
+  if (!req.session.usuario) {
+    return res.json({
+      erro: "Faça login primeiro"
+    });
+  }
+
+  const { titulo, mensagem } = req.body;
+
+  db.run(
+    `
+    INSERT INTO posts (titulo, mensagem, autor, curtidas)
+    VALUES (?, ?, ?, 0)
+    `,
+    [
+      titulo,
+      mensagem,
+      req.session.usuario.nome
+    ],
+    () => {
+      res.json({
+        sucesso: "Post criado com sucesso"
+      });
+    }
+  );
+});
+
+/* =========================
+   LISTAR POSTS
 ========================= */
 app.get("/posts", (req, res) => {
-    db.all("SELECT * FROM posts ORDER BY fixado DESC, id DESC", [], (err, rows) => {
-        res.json(rows);
-    });
+  db.all("SELECT * FROM posts", (err, rows) => {
+    res.json(rows);
+  });
 });
 
-/* criar post */
-app.post("/criar-post", (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Faça login" });
-    const { titulo, mensagem } = req.body;
-    db.run("INSERT INTO posts (titulo, mensagem, autor) VALUES (?, ?, ?)", [titulo, mensagem, req.session.usuario.email], () => {
-        res.json({ sucesso: "Post criado" });
-    });
-});
-
-/* curtir */
+/* =========================
+   CURTIR POST
+========================= */
 app.post("/curtir/:id", (req, res) => {
-    db.run("UPDATE posts SET curtidas = curtidas + 1 WHERE id = ?", [req.params.id], () => {
-        db.get("SELECT curtidas FROM posts WHERE id = ?", [req.params.id], (err, row) => {
-            res.json({ curtidas: row.curtidas });
+  const id = req.params.id;
+
+  db.run(
+    `
+    UPDATE posts
+    SET curtidas = curtidas + 1
+    WHERE id = ?
+    `,
+    [id],
+    () => {
+      db.get(
+        `
+        SELECT curtidas
+        FROM posts
+        WHERE id = ?
+        `,
+        [id],
+        (err, row) => {
+          res.json({
+            curtidas: row.curtidas
+          });
+        }
+      );
+    }
+  );
+});
+
+/* =========================
+   EXCLUIR POST
+========================= */
+app.delete("/excluir/:id", (req, res) => {
+  if (!req.session.usuario) {
+    return res.json({
+      erro: "Faça login primeiro"
+    });
+  }
+
+  const id = req.params.id;
+
+  db.get(
+    `
+    SELECT *
+    FROM posts
+    WHERE id = ?
+    `,
+    [id],
+    (err, post) => {
+      if (!post) {
+        return res.json({
+          erro: "Post não encontrado"
         });
-    });
-});
+      }
 
-/* deletar */
-app.delete("/deletar/:id", (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
-    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
-    db.run("DELETE FROM posts WHERE id = ?", [req.params.id], () => res.json({ sucesso: "Post deletado" }));
-});
+      if (
+        post.autor !== req.session.usuario.nome &&
+        req.session.usuario.role !== "admin"
+      ) {
+        return res.json({
+          erro: "Você não tem permissão para excluir este post"
+        });
+      }
 
-/* fixar */
-app.post("/fixar/:id", (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
-    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
-    db.run("UPDATE posts SET fixado = 1 WHERE id = ?", [req.params.id], () => res.json({ sucesso: "Post fixado" }));
-});
+      db.run(
+        `
+        DELETE FROM posts
+        WHERE id = ?
+        `,
+        [id],
+        (err) => {
+          if (err) {
+            return res.json({
+              erro: "Erro ao excluir post"
+            });
+          }
 
-/* =========================
-COMENTARIOS
-========================= */
-app.get("/comentarios/:id", (req, res) => {
-    db.all("SELECT * FROM comentarios WHERE post_id = ?", [req.params.id], (err, rows) => res.json(rows));
-});
-app.post("/comentar/:id", (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Faça login" });
-    db.run("INSERT INTO comentarios (post_id, autor, comentario) VALUES (?, ?, ?)", [req.params.id, req.session.usuario.email, req.body.comentario], () => res.json({ sucesso: "Comentado" }));
-});
-
-/* =========================
-BANIR
-========================= */
-app.post("/banir", (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Login necessário" });
-    if (req.session.usuario.role !== "admin") return res.json({ erro: "Apenas admin" });
-    db.run("UPDATE usuarios SET banido = 1 WHERE email = ?", [req.body.email], () => res.json({ sucesso: "Usuário banido" }));
+          res.json({
+            sucesso: "Post excluído com sucesso!"
+          });
+        }
+      );
+    }
+  );
 });
 
 /* =========================
-AVATAR
-========================= */
-app.post("/upload-avatar", upload.single("avatar"), (req, res) => {
-    if (!req.session.usuario) return res.json({ erro: "Faça login" });
-    const avatar = req.file.filename;
-    db.run("UPDATE usuarios SET avatar = ? WHERE id = ?", [avatar, req.session.usuario.id], () => {
-        req.session.usuario.avatar = avatar;
-        res.json({ sucesso: "Avatar atualizado" });
-    });
-});
-
-/* =========================
-SERVIDOR
+   SERVER
 ========================= */
 app.listen(3000, () => {
-    console.log("Servidor rodando em http://localhost:3000");
+  console.log("Servidor rodando em http://localhost:3000");
 });
