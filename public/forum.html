@@ -129,39 +129,37 @@ href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css"
 
   <!-- MODAL CORTAR FOTO -->
 
-  <div
-    id="cropperModal"
-    class="cropper-modal"
-    style="display:none;"
-  >
+<div
+  id="cropperModal"
+  class="cropper-modal"
+  style="display:none;"
+>
 
-    <div class="cropper-box">
+  <div class="cropper-box">
 
-      <h2>Ajustar Foto</h2>
+    <h2>Ajustar Foto</h2>
 
-      <img
-        id="cropperImage"
-        style="
-          max-width:100%;
-          display:block;
-        "
-      >
+    <p class="cropper-texto">
+      Arraste a imagem para enquadrar seu avatar.
+    </p>
 
-      <div class="cropper-buttons">
+    <img id="cropperImage">
 
-        <button id="salvarCrop">
-          Salvar
-        </button>
+    <div class="cropper-buttons">
 
-        <button id="cancelarCrop">
-          Cancelar
-        </button>
+      <button id="salvarCrop">
+        Salvar
+      </button>
 
-      </div>
+      <button id="cancelarCrop">
+        Cancelar
+      </button>
 
     </div>
 
   </div>
+
+</div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
   <script src="forum.js"></script>
