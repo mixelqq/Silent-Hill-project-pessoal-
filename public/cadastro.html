@@ -1,69 +1,105 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login - Silent Hill</title>
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <title>Cadastro - Silent Hill</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
+<div class="main-wrapper">
 
-<form id="cadastroForm">
+    <div class="login-container">
 
-  <input
-    type="text"
-    id="nome"
-    name="nome"
-    placeholder="Digite seu nome de usuário"
-    required
-  >
+        <h1>CADASTRO</h1>
 
-  <input
-    type="email"
-    id="email"
-    name="email"
-    placeholder="Digite seu e-mail"
-    required
-  >
+        <p class="subtitulo">
+            Junte-se à comunidade de Silent Hill...
+        </p>
 
-  <input
-    type="password"
-    id="senha"
-    name="senha"
-    placeholder="Digite sua senha"
-    required
-  >
+        <form id="cadastroForm">
 
-  <button type="submit">
-    Cadastrar
-  </button>
+            <label for="nome">Usuário</label>
+            <input
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Digite seu nome de usuário"
+                required
+            >
 
-</form>
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Digite seu e-mail"
+                required
+            >
+
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Digite sua senha"
+                required
+            >
+
+            <button type="submit">
+                Cadastrar
+            </button>
+
+        </form>
+
+        <div class="cadastro">
+            Já possui conta?
+            <a href="login.html">Fazer Login</a>
+        </div>
+
+        <div class="homepage" style="margin-top:15px;">
+            <a href="index.html">⬅ Voltar para Home</a>
+        </div>
+
+    </div>
+
+</div>
+
 <script>
-  document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
+document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const res = await fetch("/cadastro", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nome,
-        email,
-        senha
-      })
-    });
+    try {
 
-    const msg = await res.text();
-    alert(msg);
+        const res = await fetch("/cadastro", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome,
+                email,
+                senha
+            })
+        });
 
-    if (msg === "Cadastro realizado") {
-      window.location.href = "login.html";
+        const msg = await res.text();
+
+        alert(msg);
+
+        if (msg === "Cadastro realizado") {
+            window.location.href = "login.html";
+        }
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Erro ao conectar com o servidor.");
     }
-  });
+});
 </script>
 
 </body>
