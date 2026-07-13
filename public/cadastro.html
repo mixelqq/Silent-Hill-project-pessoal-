@@ -89,7 +89,7 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
 
         const msg = await res.text();
 
-        alert(msg);
+        (msg);
 
         if (msg === "Cadastro realizado") {
             window.location.href = "login.html";
@@ -97,7 +97,7 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
 
     } catch (erro) {
         console.error(erro);
-        alert("Erro ao conectar com o servidor.");
+        ("Erro ao conectar com o servidor.");
     }
 });
 </script>
