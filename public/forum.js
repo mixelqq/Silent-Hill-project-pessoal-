@@ -23,12 +23,12 @@ async function carregarUsuario() {
     return;
   }
 
-  document
-  .getElementById(
-    "email-usuario"
-  )
-  .innerText =
-  usuario.email;
+ document
+.getElementById(
+  "email-usuario"
+)
+.innerText =
+usuario.nome;
 
   document
   .getElementById(
@@ -87,11 +87,11 @@ async function criarPost() {
 
   if (data.erro) {
 
-    alert(data.erro);
+    (data.erro);
 
   } else {
 
-    alert(data.sucesso);
+    (data.sucesso);
 
     carregarPosts();
   }
@@ -185,11 +185,11 @@ async function excluirPost(id) {
 
   if (data.erro) {
 
-    alert(data.erro);
+    (data.erro);
 
   } else {
 
-    alert(data.sucesso);
+    (data.sucesso);
 
     carregarPosts();
   }
@@ -205,7 +205,7 @@ async function logout() {
   const data =
     await res.json();
 
-  alert(data.sucesso);
+  (data.sucesso);
 
   window.location.href =
     "login.html";
@@ -213,200 +213,160 @@ async function logout() {
 
 /* FOTO DE PERFIL */
 
-document
-.getElementById("trocarAvatar")
-.addEventListener(
-  "change",
-  function () {
+document.getElementById("trocarAvatar").addEventListener("change", function () {
 
-    const arquivo =
-      this.files[0];
+    const arquivo = this.files[0];
 
     if (!arquivo) return;
 
-    imagemSelecionada =
-      arquivo;
+    const reader = new FileReader();
 
-    const reader =
-      new FileReader();
+    reader.onload = function (e) {
 
-    reader.onload =
-      function(e) {
+        const modal = document.getElementById("cropperModal");
+        const img = document.getElementById("cropperImage");
 
-        document
-        .getElementById(
-          "cropperModal"
-        )
-        .style.display =
-        "flex";
+        // Mostra o modal
+        modal.style.display = "flex";
 
-        const img =
-          document.getElementById(
-            "cropperImage"
-          );
+        // Limpa cropper antigo
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
 
-        img.src =
-          e.target.result;
+        img.src = e.target.result;
 
         img.onload = () => {
 
-          if (cropper) {
+            cropper = new Cropper(img, {
 
-            cropper.destroy();
-          }
-
-          cropper =
-            new Cropper(
-              img,
-              {
                 aspectRatio: 1,
-                viewMode: 1,
-                dragMode: "move",
-                autoCropArea: 1,
-                responsive: true
-              }
-            );
-        };
-      };
 
-    reader.readAsDataURL(
-      arquivo
-    );
-  }
-);
+                viewMode: 2,
+
+                dragMode: "move",
+
+                autoCropArea: 1,
+
+                responsive: true,
+
+                background: false,
+
+                movable: true,
+
+                zoomable: true,
+
+                cropBoxMovable: false,
+
+                cropBoxResizable: true,
+
+                guides: false,
+
+                center: true,
+
+                highlight: false,
+
+                ready() {
+
+                    // Centraliza automaticamente
+                    cropper.zoomTo(1);
+
+                }
+
+            });
+
+        };
+
+    };
+
+    reader.readAsDataURL(arquivo);
+
+});
 
 carregarUsuario();
 carregarPosts();
 
+document.getElementById("cancelarCrop").addEventListener("click", () => {
 
-document
-.getElementById(
-  "cancelarCrop"
-)
-.addEventListener(
-  "click",
-  () => {
-
-    document
-    .getElementById(
-      "cropperModal"
-    )
-    .style.display =
-    "none";
+    document.getElementById("cropperModal").style.display = "none";
 
     if (cropper) {
 
-      cropper.destroy();
+        cropper.destroy();
+        cropper = null;
 
-      cropper = null;
     }
 
-    document
-    .getElementById(
-      "trocarAvatar"
-    )
-    .value = "";
-  }
-);
+    document.getElementById("trocarAvatar").value = "";
 
-document
-.getElementById(
-  "salvarCrop"
-)
-.addEventListener(
-  "click",
-  async () => {
+});
+
+document.getElementById("salvarCrop").addEventListener("click", async () => {
 
     if (!cropper) {
 
-      alert(
-        "Cropper não carregado."
-      );
+        ("Cropper não carregado.");
+        return;
 
-      return;
     }
 
-    const canvas =
-      cropper.getCroppedCanvas({
-        width: 300,
-        height: 300
-      });
+    const canvas = cropper.getCroppedCanvas({
 
-    canvas.toBlob(
-      async (blob) => {
+        width: 300,
+        height: 300,
+
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: "high"
+
+    });
+
+    canvas.toBlob(async (blob) => {
 
         try {
 
-          const formData =
-            new FormData();
+            const formData = new FormData();
 
-          formData.append(
-            "avatar",
-            blob,
-            "avatar.png"
-          );
+            formData.append("avatar", blob, "avatar.png");
 
-          const resposta =
-            await fetch(
-              "/avatar",
-              {
+            const resposta = await fetch("/avatar", {
+
                 method: "POST",
                 body: formData
-              }
-            );
 
-          const dados =
-            await resposta.json();
+            });
 
-          if (dados.sucesso) {
+            const dados = await resposta.json();
 
-            document
-            .getElementById(
-              "avatar"
-            )
-            .src =
-            "/uploads/" +
-            dados.avatar +
-            "?" +
-            Date.now();
+            if (dados.sucesso) {
 
-          } else {
+                document.getElementById("avatar").src =
+                    "/uploads/" + dados.avatar + "?" + Date.now();
 
-            alert(
-              dados.erro
-            );
-          }
+            } else {
+
+                (dados.erro);
+
+            }
 
         } catch (erro) {
 
-          console.log(erro);
+            console.error(erro);
+            ("Erro ao enviar imagem.");
 
-          alert(
-            "Erro ao enviar imagem"
-          );
         }
 
-        document
-        .getElementById(
-          "cropperModal"
-        )
-        .style.display =
-        "none";
+        document.getElementById("cropperModal").style.display = "none";
 
         if (cropper) {
 
-          cropper.destroy();
+            cropper.destroy();
+            cropper = null;
 
-          cropper = null;
         }
 
-        document
-        .getElementById(
-          "trocarAvatar"
-        )
-        .value = "";
-      },
-      "image/png"
-    );
-  }
-);
+        document.getElementById("trocarAvatar").value = "";
+
+    }, "image/png");
+
+});
